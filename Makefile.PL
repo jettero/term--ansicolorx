@@ -5,7 +5,7 @@ use strict;
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
-    NAME         => 'Term::ANSIColorx',
+    NAME         => 'Term::ANSIColorx::ExtraColors',
     VERSION_FROM => 'ExtraColors.pm',
     PREREQ_PM    => { 
         'Term::ANSIColor' => 0,
