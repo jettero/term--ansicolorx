@@ -30,6 +30,22 @@ our %NICKNAMES = (
     dire        => "1;33;41",
 );
 
+*EXPORT      = \@Term::ANSIColor::EXPORT;
+*EXPORT_OK   = \@Term::ANSIColor::EXPORT_OK;
+*EXPORT_TAGS = \%Term::ANSIColor::EXPORT_TAGS;
+
 @Term::ANSIColor::attributes{keys %NICKNAMES} = values %NICKNAMES;
+{
+    my %tmp;
+    @{ $Term::ANSIColor::EXPORT_TAGS{constants} } =
+        grep {!$tmp{$_}++}
+        @{ $Term::ANSIColor::EXPORT_TAGS{constants} },
+        map {uc $_} keys %Term::ANSIColor::attributes;
+
+   Exporter::export_ok_tags ('constants');
+
+   #use Data::Dump qw(dump);
+   #die dump( $Term::ANSIColor::EXPORT_TAGS{constants} );
+}
 
 "true";
