@@ -1,9 +1,11 @@
 
-package Term::ANSIColor::ExtraColors;
+package Term::ANSIColorx::ExtraColors;
 
 use strict;
 use warnings;
 use base 'Term::ANSIColor';
+
+our $VERSION = '2.71'; # 828183 # version approaches e
 
 our %NICKNAMES = (
     red         => "31",
