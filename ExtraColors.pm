@@ -26,16 +26,8 @@ our %NICKNAMES = (
     black       => "1;30",
     white       => "1;37",
     dire        => "1;33;41",
-    # 40 set black background
-    # 41 set red background
-    # 42 set green background
-    # 43 set brown background
-    # 44 set blue background
-    # 45 set magenta background
-    # 46 set cyan background
-    # 47 set white background
-    # 49 set default background color
-)
+);
 
+@Term::ANSIColor::attributes{keys %NICKNAMES} = values %NICKNAMES;
 
 "true";
