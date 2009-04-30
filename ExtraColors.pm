@@ -3,7 +3,7 @@ package Term::ANSIColor::ExtraColors;
 
 use strict;
 use warnings;
-use base 'Term::ANSIColors';
+use base 'Term::ANSIColor';
 
 our %NICKNAMES = (
     red         => "31",
