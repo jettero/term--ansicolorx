@@ -4,3 +4,4 @@ ExtraColors.pm
 Makefile.PL
 MANIFEST
 t/01_color_some_things.t
+t/05_color_file_handle.t
