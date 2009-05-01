@@ -2,3 +2,4 @@
 ^.git
 ^MANIFEST\.SKIP$
 TEST
+^.pm-desc.html$

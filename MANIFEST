@@ -1,1 +1,9 @@
+AutoFilterFH.pm
+Changes
+ExtraColors.pm
 hi
+Makefile.PL
+MANIFEST
+t/01_color_some_things.t
+t/05_color_file_handle.t
+t/07_test_hi.t
