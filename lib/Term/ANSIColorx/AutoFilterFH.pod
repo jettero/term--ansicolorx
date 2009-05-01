@@ -45,6 +45,14 @@ non-lines.  For example, this will not work right:
     print "neato: ", ("." x 120); # this will gain a newline at char 81
     print "\n"; 
 
+=head1 FAQ
+
+Q: You don't seem to understand Tie::Handle, shouldn't you fix it using my
+immense knowledge of perl FH globs?
+
+A: You got that right -- although the module functions correctly -- if you want
+to help, let me know, or fork the project on github.
+
 =head1 REPORTING BUGS
 
 You can report bugs either via rt.cpan.org or via the issue tracking system on
