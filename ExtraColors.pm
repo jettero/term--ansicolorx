@@ -34,6 +34,8 @@ our %NICKNAMES = (
 *EXPORT_OK   = \@Term::ANSIColor::EXPORT_OK;
 *EXPORT_TAGS = \%Term::ANSIColor::EXPORT_TAGS;
 
+*AUTOLOAD = \&Term::ANSIColor::AUTOLOAD;
+
 @Term::ANSIColor::attributes{keys %NICKNAMES} = values %NICKNAMES;
 {
     my %tmp;
