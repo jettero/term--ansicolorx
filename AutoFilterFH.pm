@@ -14,7 +14,7 @@ use base 'Exporter';
 
 our $VERSION = '2.718'; # 2.71828183 # version approaches e
 
-our @EXPORT_OK = qw(filtered_handle set_truncate);
+our @EXPORT_OK = qw(filtered_handle);
 
 my %pf2t;
 my %orig;
