@@ -1,0 +1,113 @@
+
+=head1 NAME
+
+Term::ANSIColorx::ColorNicknames
+
+=head1 SYNOPSIS
+
+use Term::ANSIColorx::ColorNicknames; # messes with T::AC
+use Term::ANSIColor qw(:constants);   # exports new nicknames now
+
+=head1 DESCRIPTION
+
+I have a hard time remembering the ANSI colors in terms of bolds and regulars,
+and also find them irritating to type.  If I want the color C<YELLOW>, why
+should I have to type C<BOLD() . YELLOW()> to get it?  C<YELLOW()> is really
+orange colored, yellow should always be bold.  Also, the color C<BLACK> is
+basically useless, on a black background at least, which is my modus operandi,
+your mileage may vary.
+
+=head1 THE NICKNAMES
+
+Except where they are intentionally overwritten, the original L<Term::ANSIColor>
+names should still be exported correctly.
+
+=over
+
+=item C<blood>
+
+Alias for the color red.
+
+=item C<umber>
+
+Alias for bold red.
+
+=item C<sky>
+
+Alias for bold blue.
+
+=item C<ocean>
+
+Replaces the color cyan, which should be very bright.
+
+=item C<lightblue>
+
+Alias for ocean.
+
+=item C<cyan>
+
+Cyan is the bold of the ocean.  It's a bright cyan color.
+
+=item C<lime>
+
+Bolded green.  It's really a lime color.
+
+=item C<orange> C<brown>
+
+Orange.  Most correctly, what ANSI calls "yellow", but is really more of a
+brown-orange.
+
+=item C<yellow>
+
+Yellow.  Technically bolded yellow.
+
+=item C<purple>
+
+Alias for magenta.  I can never remember which is right, probably thanks to CSS.
+
+=item C<violet>
+
+Bolded purple.
+
+=item C<black>
+
+Bolded black.  Black, being totally useless on dark backgrounds.  This
+replacement can be disabled with either C<$ENV{DISABLE_BLACK}> or via
+C<$Term::ANSIColorx::ColorNicknames::DISABLE_BLACK>.
+
+=item C<grey> C<grey>
+
+Unbolded white.
+
+=item C<white>
+
+Bolded white.
+
+=item C<dire>
+
+Scary yellow on red warning color.
+
+=back
+
+=head1 FAQ
+
+    Q: This is dumb. 
+
+    A: That's not a question, but you're right.  I still use it.
+
+=head1 REPORTING BUGS
+
+You can report bugs either via rt.cpan.org or via the issue tracking system on
+github.  I'm likely to notice either fairly quickly.
+
+=head1 AUTHOR
+
+Paul Miller C<< <jettero@cpan.org> >>
+
+=head1 COPYRIGHT
+
+Copyright 2009 Paul Miller -- released under the GPL
+
+=head1 SEE ALSO
+
+perl(1), L<Term::ANSIColor>
