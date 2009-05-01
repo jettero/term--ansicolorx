@@ -6,6 +6,7 @@ use warnings;
 use Term::ANSIColor;
 
 our $VERSION = '2.718'; # 2.71828183 # version approaches e
+our $DISABLE_BLACK;
 
 our %NICKNAMES = (
     blood       => "31",
@@ -20,7 +21,9 @@ our %NICKNAMES = (
     yellow      => "1;33",
     purple      => "35",
     violet      => "1;35",
-    black       => "1;30",
+
+    ( ($ENV{DISABLE_BLACK} or $DISABLE_BLACK) ? () : (black => "1;30") ),
+
     grey        => "37",
     gray        => "37",
     white       => "1;37",

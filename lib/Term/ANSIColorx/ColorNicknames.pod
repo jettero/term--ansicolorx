@@ -73,7 +73,8 @@ Bolded purple.
 
 Bolded black.  Black, being totally useless on dark backgrounds.  This
 replacement can be disabled with either C<$ENV{DISABLE_BLACK}> or via
-C<$Term::ANSIColorx::ColorNicknames::DISABLE_BLACK>.
+C<$Term::ANSIColorx::ColorNicknames::DISABLE_BLACK> -- although the later must
+be invoked before L<use|perlfun/use> compiles the nicknames module.
 
 =item C<grey> C<grey>
 
