@@ -30,7 +30,7 @@ WriteMakefile(
         LICENSE	=> 'LGPL',
     ) : ()),
 
-    ( $install_hi =~ m/n/i ? () : EXE_FILES => [ 'hi' ] ),
+    ( $install_hi =~ m/n/i ? () : (EXE_FILES=>['hi']) ),
 
     clean => { FILES => 'dist TEST' },
 );
