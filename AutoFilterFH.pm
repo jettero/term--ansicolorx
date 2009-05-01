@@ -16,29 +16,41 @@ our $VERSION = '2.718'; # 2.71828183 # version approaches e
 
 our @EXPORT_OK = qw(filtered_handle set_truncate);
 
+my %pf2t;
 my %orig;
 my %pats;
 my %trun;
 
 my @icolors = ("");
 
+# DESTROY {{{
 sub DESTROY {
     my $this = shift;
+
+    for my $pfft (keys %pf2t) {
+        if( $pf2t{$pfft} == $this ) {
+            delete $pf2t{$pfft};
+            last;
+        }
+    }
+
     delete $orig{$this};
     delete $pats{$this};
     delete $trun{$this};
 }
-
+# }}}
+# set_truncate {{{
 sub set_truncate {
-    my $this = shift;
+    my $pfft = shift;
     my $that = int shift;
+    my $this = $pf2t{$pfft};
 
     return delete $trun{$this} unless $that > 0;
 
-    warn "\3[32mhere";
     $trun{$this} = $that;
 }
-
+# }}}
+# PRINT {{{
 sub PRINT {
     my $this = shift;
     my @them = @_;
@@ -62,9 +74,8 @@ sub PRINT {
         substr $it, 0, 0, $icolors[$colors[0]] if $colors[0];
     }
 
-    if( my $trun = exists $trun{$this} ) {
+    if( my $trun = $trun{$this} ) {
         # TODO This assumes all PRINT()s are *lines*, and they're clearly not.
-        warn "\e[32mhere";
 
         local $";
         my $line = "@them";
@@ -76,7 +87,8 @@ sub PRINT {
 
     print {$orig{$this}} @them;
 }
-
+# }}}
+# filtered_handle {{{
 sub filtered_handle {
     my ($fh, @patterns) = @_;
     croak "filtered_handle(globref, \@patterns)" unless ref($fh) eq "GLOB";
@@ -104,13 +116,17 @@ sub filtered_handle {
         push @pats, [ $pat => $l ];
     }
 
-    my $pfft = gensym();
-    my $it = tie *{$pfft}, __PACKAGE__ or die $!;
+    # NOTE: This is called pfft because I'd like to get rid of it.
+    # it doesn't seem like I should need it and it irritates me.
+    my $pfft = bless gensym();
+    my $this = tie *{$pfft}, __PACKAGE__ or die $!;
 
-    $orig{$it} = $fh;
-    $pats{$it} = \@pats;
+    $pf2t{$pfft} = $this;
+    $orig{$this} = $fh;
+    $pats{$this} = \@pats;
 
     $pfft;
 }
+# }}}
 
 "true";
