@@ -46,7 +46,9 @@ sub filtered_handle {
 
     my $pfft = gensym();
     my $it = tie *{$pfft}, __PACKAGE__ or die $!;
+
     $orig{$it} = $fh;
     $pats{$it} = \@pats;
+
     $pfft;
 }
