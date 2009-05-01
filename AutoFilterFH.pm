@@ -45,6 +45,10 @@ sub PRINT {
     for my $it (@them) {
         my @colors;
 
+        if( my $trun = exists $trun{$this} ) {
+            (substr $_, $trun) = "\n" if length $_ > $trunc+1;
+        }
+
         for my $p ( @{$pats{$this}} ) {
             while( $it =~ m/($p->[0])/g ) {
                 $colors[$_] = $p->[1] for $-[1] .. $+[1]-1;
