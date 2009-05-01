@@ -22,11 +22,18 @@ my %trun;
 
 my @icolors = ("");
 
+sub DESTROY {
+    my $this = shift;
+    delete $orig{$this};
+    delete $pats{$this};
+    delete $trun{$this};
+}
+
 sub set_truncate {
     my $this = shift;
     my $that = int shift;
 
-    return delete $trunc{$this} unless $that > 0;
+    return delete $trun{$this} unless $that > 0;
 
     $trun{$this} = $that;
 }
