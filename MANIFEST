@@ -2,6 +2,8 @@ AutoFilterFH.pm
 Changes
 ColorNicknames.pm
 hi
+lib/Term/ANSIColorx/AutoFilterFH.pod
+lib/Term/ANSIColorx/ColorNicknames.pod
 Makefile.PL
 MANIFEST
 t/01_color_some_things.t
