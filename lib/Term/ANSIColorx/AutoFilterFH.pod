@@ -1,0 +1,63 @@
+
+=head1 NAME
+
+Term::ANSIColorx::AutoFilterFH - automatically color-highlight a stream
+
+=head1 SYNOPSIS
+
+    use Term::ANSIColorx::ColorNicknames; # optional
+    use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
+
+    my $filtered_stdout = filtered_handle(\*STDOUT,
+        'jettero' => 'bold-blue',
+        'nobody'  => 'sky', # same as jettero under ColorNicks, or error
+        'root'    => 'red',
+    );
+
+    print "This has colors: jettero nobody root\n";
+
+    select $filtered_stdout;
+    print "This also has colors. -jettero\n";
+
+    $filtered_stdout->set_truncate(80);
+    print "This line is only 80 characters... ", ("." x 120), "\n";
+
+=head1 DESCRIPTION
+
+I wanted a way to inject colors into places that didn't otherwise support it.  I
+also wanted to make my L<hi> utility as short as possible -- and it worked.
+L<hi> is barely three lines, not including the options.
+
+=head1 C<filter_handle()>
+
+This function returns a tied handle with some magic installed.  You can print to
+it and select it.  It has one method you can invoke as well.
+
+=head1 C<set_truncate()>
+
+Use this method to set a characters-per-line limit.  Give it an C<undef> or a
+C<0> to disable it again.   Caveat:  The truncator assumes input to C<PRINT()>
+is a I<line> and as such, the results will seem incorrect when the printing
+non-lines.  For example, this will not work right:
+
+    $truncated_handle->set_truncate(80)
+    select $truncated_handle;
+    print "neato: ", ("." x 120); # this will gain a newline at char 81
+    print "\n"; 
+
+=head1 REPORTING BUGS
+
+You can report bugs either via rt.cpan.org or via the issue tracking system on
+github.  I'm likely to notice either fairly quickly.
+
+=head1 AUTHOR
+
+Paul Miller C<< <jettero@cpan.org> >>
+
+=head1 COPYRIGHT
+
+Copyright 2009 Paul Miller -- released under the GPL
+
+=head1 SEE ALSO
+
+perl(1), L<Term::ANSIColor>, L<Tie::Handle>
