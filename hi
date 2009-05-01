@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
-use Term::ANSIColorx::ExtraColors qw(:constants);
+use Term::ANSIColorx::ColorNicknames qw(:constants);
 use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 use Getopt::Long;
 
@@ -15,7 +15,7 @@ GetOptions(
 my $newstdout = filtered_handle(\*STDOUT, @ARGV);
 $| = 1; my $oldstdout = select $newstdout; $|=1;
 
-# $newstdout->set_truncate($truncate) if $truncate;
+$newstdout->set_truncate($truncate) if $truncate;
 
 while(<STDIN>) {
     print

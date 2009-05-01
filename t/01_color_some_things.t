@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 use Test;
-use Term::ANSIColorx::ExtraColors;
+use Term::ANSIColorx::ColorNicknames;
 use Term::ANSIColor qw(:constants);
 
 plan tests => 2;

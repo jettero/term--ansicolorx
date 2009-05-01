@@ -1,5 +1,5 @@
 
-package Term::ANSIColorx::ExtraColors;
+package Term::ANSIColorx::ColorNicknames;
 
 use strict;
 use warnings;

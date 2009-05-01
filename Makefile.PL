@@ -13,8 +13,8 @@ if( $ENV{HOSTNAME} eq "corky" and -f ".st" ) {
 }
 
 WriteMakefile(
-    NAME         => 'Term::ANSIColorx::ExtraColors',
-    VERSION_FROM => 'ExtraColors.pm',
+    NAME         => 'Term::ANSIColorx::ColorNicknames',
+    VERSION_FROM => 'ColorNicknames.pm',
     PREREQ_PM    => { 
         'Term::ANSIColor' => 0,
     },
