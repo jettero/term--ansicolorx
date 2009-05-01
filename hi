@@ -1,16 +1,24 @@
 #!/usr/bin/perl
 
 use strict;
-use Term::ANSIColorx::ColorNicknames;
-use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 use Getopt::Long;
+use Pod::Usage;
 
 my $truncate;
+my $no_extra;
 Getopt::Long::Configure("bundling"); # make switches case sensitive (and turn on bundling)
 GetOptions(
-    "help|h"    => sub { pod2usage(-verbose=>1) },
-    "trunc|t=i" => \$truncate, # whether to truncate the line
+    "help|h"         => sub { pod2usage(-verbose=>2) },
+    "trunc|t=i"      => \$truncate, # whether to truncate the line
+    "nixnics|noex|x" => \$no_extra, # don't use the color nicknames
 );
+
+unless( $no_extra ) {
+    eval q { use Term::ANSIColorx::ColorNicknames };
+    die $@ if $@;
+}
+eval q { use Term::ANSIColorx::AutoFilterFH qw(filtered_handle) };
+die $@ if $@;
 
 my $newstdout = filtered_handle(\*STDOUT, @ARGV);
 $| = 1; my $oldstdout = select $newstdout; $|=1;
@@ -19,3 +27,37 @@ $newstdout->set_truncate($truncate) if $truncate;
 while(<STDIN>) {
     print
 }
+
+=head1 NAME
+
+hi - highlight things in a stream of output
+
+=head1 SYNOPSIS
+
+  hi [options] [regex color [regex color [regex color [...]]]]
+      --nixnics --noex -x: do not use the extended color nicknames
+      --trunc -t:          truncate lines to this width (argument required)
+      --help -h:           this help
+
+=head1 EXAMPLES
+
+  ps auxfw | hi jettero sky root red ^nobody orange
+
+  sudo tail -f /var/log/vsftpd.log | hi CONNECT.* umber OK.UPLOAD.* lime
+
+=head1 REPORTING BUGS
+
+You can report bugs either via rt.cpan.org or via the issue tracking system on
+github.  I'm likely to notice either fairly quickly.
+
+=head1 AUTHOR
+
+Paul Miller C<< <jettero@cpan.org> >>
+
+=head1 COPYRIGHT
+
+Copyright 2009 Paul Miller -- released under the GPL
+
+=head1 SEE ALSO
+
+perl(1), L<Term::ANSIColor>, L<Term::ANSIColorx::AutoFilterFH>, L<Term::ANSIColorx::ColorNicknames>
