@@ -3,7 +3,20 @@
 use strict;
 use Term::ANSIColorx::ExtraColors qw(:constants);
 use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
+use Getopt::Long;
+
+my $truncate;
+Getopt::Long::Configure("bundling"); # make switches case sensitive (and turn on bundling)
+GetOptions(
+    "help|h"  => sub { pod2usage(-verbose=>1) },
+    "trunc|t" => \$truncate, # whether to truncate the line
+);
 
 my $newstdout = filtered_handle(\*STDOUT, @ARGV);
 $| = 1; my $oldstdout = select $newstdout; $|=1;
-print while <STDIN>;
+
+# $newstdout->set_truncate($truncate) if $truncate;
+
+while(<STDIN>) {
+    print
+}

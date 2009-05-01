@@ -18,8 +18,18 @@ our @EXPORT_OK = qw(filtered_handle);
 
 my %orig;
 my %pats;
+my %trun;
 
 my @icolors = ("");
+
+sub set_truncate {
+    my $this = shift;
+    my $that = int shift;
+
+    return delete $trunc{$this} unless $that > 0;
+
+    $trun{$this} = $that;
+}
 
 sub PRINT {
     my $this = shift;
