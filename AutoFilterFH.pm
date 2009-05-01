@@ -46,7 +46,7 @@ sub PRINT {
         my @colors;
 
         if( my $trun = exists $trun{$this} ) {
-            (substr $_, $trun) = "\n" if length $_ > $trunc+1;
+            (substr $_, $trun) = "\n" if length $_ > $trun+1;
         }
 
         for my $p ( @{$pats{$this}} ) {
