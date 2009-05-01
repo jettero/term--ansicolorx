@@ -19,7 +19,7 @@ our @EXPORT_OK = qw(filtered_handle);
 my %orig;
 my %pats;
 
-my @icolors;
+my @icolors = ("");
 
 sub PRINT {
     my $this = shift;
