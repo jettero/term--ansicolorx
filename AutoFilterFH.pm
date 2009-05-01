@@ -14,7 +14,7 @@ use base 'Exporter';
 
 our $VERSION = '2.718'; # 2.71828183 # version approaches e
 
-our @EXPORT_OK = qw(filtered_handle);
+our @EXPORT_OK = qw(filtered_handle set_truncate);
 
 my %orig;
 my %pats;
@@ -35,6 +35,7 @@ sub set_truncate {
 
     return delete $trun{$this} unless $that > 0;
 
+    warn "\3[32mhere";
     $trun{$this} = $that;
 }
 
@@ -44,10 +45,6 @@ sub PRINT {
 
     for my $it (@them) {
         my @colors;
-
-        if( my $trun = exists $trun{$this} ) {
-            (substr $_, $trun) = "\n" if length $_ > $trun+1;
-        }
 
         for my $p ( @{$pats{$this}} ) {
             while( $it =~ m/($p->[0])/g ) {
@@ -63,6 +60,18 @@ sub PRINT {
             }
         }
         substr $it, 0, 0, $icolors[$colors[0]] if $colors[0];
+    }
+
+    if( my $trun = exists $trun{$this} ) {
+        # TODO This assumes all PRINT()s are *lines*, and they're clearly not.
+        warn "\e[32mhere";
+
+        local $";
+        my $line = "@them";
+        (substr $line, $trun) = "\n" if length $_ > $trun+1;
+        print $line;
+
+        return;
     }
 
     print {$orig{$this}} @them;
