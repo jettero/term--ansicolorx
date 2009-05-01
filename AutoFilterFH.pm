@@ -11,6 +11,8 @@ use Term::ANSIColorx::ExtraColors;
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
+our $VERSION = '2.71'; # 828183 # version approaches e
+
 our @EXPORT_OK = qw(filtered_handle);
 
 my %orig;
