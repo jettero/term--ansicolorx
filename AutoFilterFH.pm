@@ -2,6 +2,8 @@
 package Term::ANSIColorx::AutoFilterFH;
 
 use strict;
+use warnings;
+no warnings 'uninitialized'; # sometimes it's ok to compare undef... jesus
 
 use Carp;
 use Symbol;
@@ -17,22 +19,30 @@ our @EXPORT_OK = qw(filtered_handle);
 my %orig;
 my %pats;
 
+my @icolors;
+
 sub PRINT {
     my $this = shift;
     my @them = @_;
 
-    my @colors;
+    for(@them) {
+        my @colors;
 
-    for my $p ( @{$pats{$this}} ) {
-        for(@them) {
+        for my $p ( @{$pats{$this}} ) {
             while( m/($p->[0])/g ) {
                 $colors[$_] = $p->[1] for $-[1] .. $+[1]-1;
             }
         }
-    }
 
-    use Data::Dump qw(dump);
-    die dump(\@colors);
+        my $l = 0;
+        for my $i ( reverse 0 .. $#colors ) {
+            if( (my $n = $colors[$i]) != $l ) {
+                substr $_, $i+1, 0, RESET . "$icolors[$l]";
+                $l = $n;
+            }
+        }
+        substr $_, 0, 0, $icolors[$colors[0]] if $colors[0];
+    }
 
     print {$orig{$this}} @them;
 }
@@ -52,7 +62,15 @@ sub filtered_handle {
 
         croak "color \"$color\" unkown" unless exists $Term::ANSIColorx::ExtraColors::NICKNAMES{lc $color};
 
-        push @pats, [$pat => eval(uc($color)) ];
+        my $color = eval( uc($color) . "()" ) or die $@;
+        my ($l)   = grep {$color eq $icolors[$_]} 0 .. $#icolors;
+
+        unless($l) {
+            push @icolors, $color;
+            $l = $#icolors;
+        }
+        
+        push @pats, [ $pat => $l ];
     }
 
     my $pfft = gensym();
