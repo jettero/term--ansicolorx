@@ -102,17 +102,22 @@ sub filtered_handle {
             croak "RE \"$_\" doesn't compile well: $@" unless $pat;
         }
 
-        my $uc = uc $color;
-        croak "color \"$color\" unkown" unless grep { $_ eq $uc } @Term::ANSIColor::EXPORT_OK;
+        my @uc = split m/[,\s-]+/, uc $color;
+        my $eval_str = join(" . ", map("$_()", @uc));
 
-        my $color = eval( $uc . "()" ) or die $@;
+        # die unless all the elements of @uc are found in
+        # @Term::ANSIColor::EXPORT_OK
+        my $color_c  = grep { my $tac=$_; grep {$tac eq $_} @uc } @Term::ANSIColor::EXPORT_OK;
+        croak "color \"$color\" (understood as $eval_str) unkown" unless @uc == $color_c;
+
+        my $color = eval $eval_str or die $@;
         my ($l)   = grep {$color eq $icolors[$_]} 0 .. $#icolors;
 
         unless($l) {
             push @icolors, $color;
             $l = $#icolors;
         }
-        
+
         push @pats, [ $pat => $l ];
     }
 

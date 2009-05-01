@@ -43,6 +43,10 @@ our %NICKNAMES = (
     local *EXPORT_TAGS = \%Term::ANSIColor::EXPORT_TAGS;
 
     Exporter::export_ok_tags ('constants');
+
+    %tmp = ();
+    @tmp{@Term::ANSIColor::EXPORT_OK} = ();
+    @Term::ANSIColor::EXPORT_OK = keys %tmp;
 }
 
 "true";
