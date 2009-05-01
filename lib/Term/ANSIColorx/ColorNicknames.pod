@@ -1,7 +1,7 @@
 
 =head1 NAME
 
-Term::ANSIColorx::ColorNicknames
+Term::ANSIColorx::ColorNicknames - nicknames for the ANSI colors
 
 =head1 SYNOPSIS
 
