@@ -12,7 +12,7 @@ use Term::ANSIColor qw(:constants);
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
-our $VERSION = '2.718'; # 2.71828183 # version approaches e
+our $VERSION = '2.7182'; # 2.71828183 # version approaches e
 
 our @EXPORT_OK = qw(filtered_handle);
 
