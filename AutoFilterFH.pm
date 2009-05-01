@@ -79,7 +79,7 @@ sub PRINT {
 
         local $";
         my $line = "@them";
-        (substr $line, $trun) = "\n" if length $_ > $trun+1;
+        (substr $line, $trun) = "\n" if length $line > $trun+1;
         print {$orig{$this}} $line;
 
         return;

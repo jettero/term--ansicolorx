@@ -4,16 +4,16 @@ use warnings;
 use Test;
 use Term::ANSIColorx::AutoFilterFH qw(filtered_handle set_truncate);
 
-plan tests => 2;
+plan tests => 3;
 
 open FILE, ">TEST" or die $!;
 eval { my $colored = filtered_handle(\*FILE => (qr(test1) => 'red'), ("test2" => "blood") ) };
 ok( $@ =~ m/blood/ );
 
 my $truncated = filtered_handle(\*FILE => (qr(test1) => 'red'));
-set_truncate($truncated, 80);
+   $truncated->set_truncate(80);
 
-my $string = "test1 " x 65;
+my $string = "test1 " x 25;
 print $truncated $string;
 
 close FILE;
@@ -22,4 +22,4 @@ open FILE, "TEST" or die $!;
 my $contents = do {local $/; <FILE>};
 
 ok( $contents =~ m/\e\[31mtest1\e\[0?m/ );
-ok( length($contents), 80 );
+ok( length($contents), 81 );
