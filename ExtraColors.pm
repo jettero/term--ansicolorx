@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use base 'Term::ANSIColor';
 
-our $VERSION = '2.71'; # 828183 # version approaches e
+our $VERSION = '2.718'; # 2.71828183 # version approaches e
 
 our %NICKNAMES = (
     red         => "31",
