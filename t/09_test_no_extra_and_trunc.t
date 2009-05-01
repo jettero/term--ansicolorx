@@ -2,7 +2,7 @@ use strict;
 use warnings;
 
 use Test;
-use Term::ANSIColorx::AutoFilterFH qw(filtered_handle set_truncate);
+use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 
 plan tests => 3;
 
