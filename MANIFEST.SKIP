@@ -1,3 +1,4 @@
 ^.st$
 ^.git
 ^MANIFEST\.SKIP$
+TEST

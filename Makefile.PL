@@ -7,6 +7,7 @@ use ExtUtils::MakeMaker;
 WriteMakefile(
     NAME         => 'Term::ANSIColorx::ExtraColors',
     VERSION_FROM => 'ExtraColors.pm',
+    EXE_FILES    => [ 'hi' ],
     PREREQ_PM    => { 
         'Term::ANSIColor' => 0,
     },
@@ -21,4 +22,6 @@ WriteMakefile(
 
         LICENSE	=> 'LGPL',
     ) : ()),
+
+    clean => { FILES => 'dist TEST' },
 );

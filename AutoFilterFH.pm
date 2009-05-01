@@ -25,11 +25,11 @@ sub PRINT {
     my $this = shift;
     my @them = @_;
 
-    for(@them) {
+    for my $it (@them) {
         my @colors;
 
         for my $p ( @{$pats{$this}} ) {
-            while( m/($p->[0])/g ) {
+            while( $it =~ m/($p->[0])/g ) {
                 $colors[$_] = $p->[1] for $-[1] .. $+[1]-1;
             }
         }
@@ -37,11 +37,11 @@ sub PRINT {
         my $l = 0;
         for my $i ( reverse 0 .. $#colors ) {
             if( (my $n = $colors[$i]) != $l ) {
-                substr $_, $i+1, 0, RESET . "$icolors[$l]";
+                substr $it, $i+1, 0, RESET . "$icolors[$l]";
                 $l = $n;
             }
         }
-        substr $_, 0, 0, $icolors[$colors[0]] if $colors[0];
+        substr $it, 0, 0, $icolors[$colors[0]] if $colors[0];
     }
 
     print {$orig{$this}} @them;

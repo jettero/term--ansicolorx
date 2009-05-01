@@ -14,5 +14,5 @@ close FILE;
 open FILE, "TEST" or die $!;
 my $contents = do {local $/; <FILE>};
 
-ok( $contents =~ m/\e\[1;34mtest1\e\[m/ );
-ok( $contents =~ m/\e\[31mtest2\e\[m/ );
+ok( $contents =~ m/\e\[1;34mtest1\e\[0?m/ );
+ok( $contents =~ m/\e\[31mtest2\e\[0?m/ );
