@@ -81,9 +81,10 @@ sub filtered_handle {
             croak "RE \"$_\" doesn't compile well: $@" unless $pat;
         }
 
-        croak "color \"$color\" unkown" unless exists $Term::ANSIColorx::ExtraColors::NICKNAMES{lc $color};
+        my $uc = uc $color;
+        croak "color \"$color\" unkown" unless grep { $_ eq $uc } @Term::ANSIColor::EXPORT_OK;
 
-        my $color = eval( uc($color) . "()" ) or die $@;
+        my $color = eval( $uc . "()" ) or die $@;
         my ($l)   = grep {$color eq $icolors[$_]} 0 .. $#icolors;
 
         unless($l) {
