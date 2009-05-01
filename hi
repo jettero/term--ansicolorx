@@ -1,6 +1,7 @@
 #!/usr/bin/perl
 
 use strict;
+use Term::ANSIColorx::ExtraColors qw(:constants);
 use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 
 my $newstdout = filtered_handle(\*STDOUT, @ARGV);

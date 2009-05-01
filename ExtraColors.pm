@@ -3,7 +3,7 @@ package Term::ANSIColorx::ExtraColors;
 
 use strict;
 use warnings;
-use base 'Term::ANSIColor';
+use Term::ANSIColor;
 
 our $VERSION = '2.718'; # 2.71828183 # version approaches e
 
@@ -30,12 +30,6 @@ our %NICKNAMES = (
     dire        => "1;33;41",
 );
 
-*EXPORT      = \@Term::ANSIColor::EXPORT;
-*EXPORT_OK   = \@Term::ANSIColor::EXPORT_OK;
-*EXPORT_TAGS = \%Term::ANSIColor::EXPORT_TAGS;
-
-*AUTOLOAD = \&Term::ANSIColor::AUTOLOAD;
-
 @Term::ANSIColor::attributes{keys %NICKNAMES} = values %NICKNAMES;
 {
     my %tmp;
@@ -44,10 +38,11 @@ our %NICKNAMES = (
         @{ $Term::ANSIColor::EXPORT_TAGS{constants} },
         map {uc $_} keys %Term::ANSIColor::attributes;
 
-   Exporter::export_ok_tags ('constants');
+    local *EXPORT      = \@Term::ANSIColor::EXPORT;
+    local *EXPORT_OK   = \@Term::ANSIColor::EXPORT_OK;
+    local *EXPORT_TAGS = \%Term::ANSIColor::EXPORT_TAGS;
 
-   #use Data::Dump qw(dump);
-   #die dump( $Term::ANSIColor::EXPORT_TAGS{constants} );
+    Exporter::export_ok_tags ('constants');
 }
 
 "true";

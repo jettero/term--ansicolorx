@@ -2,6 +2,7 @@ use strict;
 use warnings;
 
 use Test;
+use Term::ANSIColorx::ExtraColors;
 use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 
 plan tests => 2;

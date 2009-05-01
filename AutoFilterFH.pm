@@ -8,7 +8,7 @@ no warnings 'uninitialized'; # sometimes it's ok to compare undef... jesus
 use Carp;
 use Symbol;
 use Tie::Handle;
-use Term::ANSIColorx::ExtraColors qw(:constants);
+use Term::ANSIColor qw(:constants);
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
