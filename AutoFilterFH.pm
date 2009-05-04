@@ -12,7 +12,7 @@ use Term::ANSIColor qw(:constants);
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
-our $VERSION = '2.7182'; # 2.71828183 # version approaches e
+our $VERSION = '2.71828'; # 2.71828183 # version approaches e
 
 our @EXPORT_OK = qw(filtered_handle);
 
@@ -105,9 +105,12 @@ sub filtered_handle {
         my @uc = split m/[,\s-]+/, uc $color;
         my $eval_str = join(" . ", map("$_()", @uc));
 
-        # die unless all the elements of @uc are found in
-        # @Term::ANSIColor::EXPORT_OK
-        my $color_c  = grep { my $tac=$_; grep {$tac eq $_} @uc } @Term::ANSIColor::EXPORT_OK;
+        # die unless all the elements of @uc are all caps exports of
+        # Term::ANSIColor
+
+        my $color_c = 0;
+           $color_c += (Term::ANSIColor->can($_) ? 1:0) for @uc;
+
         croak "color \"$color\" (understood as $eval_str) unknown" unless @uc == $color_c;
 
         my $color = eval $eval_str or die $@;
