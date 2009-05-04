@@ -108,7 +108,7 @@ sub filtered_handle {
         # die unless all the elements of @uc are found in
         # @Term::ANSIColor::EXPORT_OK
         my $color_c  = grep { my $tac=$_; grep {$tac eq $_} @uc } @Term::ANSIColor::EXPORT_OK;
-        croak "color \"$color\" (understood as $eval_str) unkown" unless @uc == $color_c;
+        croak "color \"$color\" (understood as $eval_str) unknown" unless @uc == $color_c;
 
         my $color = eval $eval_str or die $@;
         my ($l)   = grep {$color eq $icolors[$_]} 0 .. $#icolors;
