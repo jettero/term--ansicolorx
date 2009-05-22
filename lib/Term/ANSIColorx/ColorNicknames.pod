@@ -5,8 +5,8 @@ Term::ANSIColorx::ColorNicknames - nicknames for the ANSI colors
 
 =head1 SYNOPSIS
 
-use Term::ANSIColorx::ColorNicknames; # messes with T::AC
-use Term::ANSIColor qw(:constants);   # exports new nicknames now
+    use Term::ANSIColorx::ColorNicknames; # messes with T::AC
+    use Term::ANSIColor qw(:constants);   # exports new nicknames now
 
 =head1 DESCRIPTION
 
