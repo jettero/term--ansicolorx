@@ -9,7 +9,7 @@ if( $ENV{HOSTNAME} eq "corky" and -f ".st" ) {
     $install_hi = "duh";
 
 } else {
-    $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "n");
+    $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
 }
 
 WriteMakefile(
