@@ -5,6 +5,8 @@ use strict;
 use Getopt::Long;
 use Pod::Usage;
 
+our $VERSION = '2.7184';
+
 my $truncate;
 my $no_extra;
 Getopt::Long::Configure("bundling"); # make switches case sensitive (and turn on bundling)
