@@ -12,7 +12,7 @@ use Term::ANSIColor qw(:constants);
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
-our $VERSION = '2.7183';
+our $VERSION = '2.7184';
 
 our @EXPORT_OK = qw(filtered_handle);
 
