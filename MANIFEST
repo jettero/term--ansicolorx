@@ -3,7 +3,6 @@ Changes
 ColorNicknames.pm
 MANIFEST
 Makefile.PL
-Makefile.old
 README
 hi
 lib/Term/ANSIColorx/AutoFilterFH.pod
