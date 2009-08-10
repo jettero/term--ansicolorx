@@ -4,7 +4,7 @@ require 5.006001;
 use strict;
 use ExtUtils::MakeMaker;
 
-$install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
+my $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
 
 WriteMakefile(
     NAME         => 'Term::ANSIColorx::ColorNicknames',
