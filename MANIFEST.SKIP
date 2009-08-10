@@ -3,3 +3,4 @@
 ^MANIFEST\.SKIP$
 TEST
 ^.pm-desc.html$
+$Makefile.old$
