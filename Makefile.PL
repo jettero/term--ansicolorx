@@ -4,13 +4,7 @@ require 5.006001;
 use strict;
 use ExtUtils::MakeMaker;
 
-my $install_hi;
-if( $ENV{HOSTNAME} eq "corky" and -f ".st" ) {
-    $install_hi = "duh";
-
-} else {
-    $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
-}
+$install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
 
 WriteMakefile(
     NAME         => 'Term::ANSIColorx::ColorNicknames',
