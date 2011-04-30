@@ -1,3 +1,6 @@
+2.7185: Sat Apr 30 2011
+   - Add App::HI namespace so I can install this easier
+
 2.7184: Mon Aug 10 2009
    - hi default install
    - make hi show up under App::HI

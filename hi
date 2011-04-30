@@ -4,7 +4,7 @@ use strict;
 use Getopt::Long;
 use Pod::Usage;
 
-our $VERSION = '2.7184';
+our $VERSION = '2.7185';
 
 my $truncate;
 my $no_extra;

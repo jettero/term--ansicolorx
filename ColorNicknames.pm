@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Term::ANSIColor;
 
-our $VERSION = '2.7184';
+our $VERSION = '2.7185';
 our $DISABLE_BLACK;
 
 our %NICKNAMES = (
