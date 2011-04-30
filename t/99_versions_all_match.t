@@ -7,19 +7,21 @@ use Term::ANSIColorx::ColorNicknames;
 
 my @versions;
 
-eval q ^
-    use File::Slurp qw(slurp);
+if ($ENV{TEST_AUTHOR}) {
+    eval q ^
+        use File::Slurp qw(slurp);
 
-    File::Find::find(sub {
-        return unless -f $_;
-        return if m/ColorNicknames\.pm/;
-        my $cont = slurp($_);
-        my ($ver) = $cont =~ m/our\s*\$VERSION\s*=\s*['"](.+)['"]/;
+        File::Find::find(sub {
+            return unless -f $_;
+            return if m/ColorNicknames\.pm/;
+            my $cont = slurp($_);
+            my ($ver) = $cont =~ m/our\s*\$VERSION\s*=\s*['"](.+)['"]/;
 
-        push @versions, [ $_, $ver ] if $ver;
+            push @versions, [ $_, $ver ] if $ver;
 
-    }, 'blib');
-^;
+        }, 'blib');
+    ^;
+}
 
 if( @versions ) {
     plan tests => int @versions;
