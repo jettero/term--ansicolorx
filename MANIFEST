@@ -13,3 +13,4 @@ t/05_color_file_handle.t
 t/07_test_hi.t
 t/09_test_no_extra_and_trunc.t
 t/10_hi_trunc.t
+t/99_versions_all_match.t
