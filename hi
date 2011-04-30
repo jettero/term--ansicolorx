@@ -1,6 +1,5 @@
 #!/usr/bin/perl
 
-package App::HI;
 use strict;
 use Getopt::Long;
 use Pod::Usage;

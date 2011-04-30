@@ -5,6 +5,7 @@ MANIFEST
 Makefile.PL
 README
 hi
+lib/App/HI.pm
 lib/Term/ANSIColorx/AutoFilterFH.pod
 lib/Term/ANSIColorx/ColorNicknames.pod
 t/01_color_some_things.t
