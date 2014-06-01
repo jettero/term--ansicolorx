@@ -4,3 +4,5 @@ blib
 pm_to_blib
 TEST
 dist
+MYMETA.json
+MYMETA.yml
