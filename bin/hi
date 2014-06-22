@@ -4,24 +4,31 @@ use strict;
 use Getopt::Long;
 use Pod::Usage;
 use App::HI;
+use List::Util;
+use Getopt::Long qw(:config bundling);
+
+my %o; my %ol = (
+    "help|h"             => "this help",
+    "trunc|t=i"          => "truncate the line to this many characters",
+    "nixnics|noex|x"     => "don't use the nicknames from Term::ANSIColorx::Colornicknames",
+    "list|list-colors|l" => "list (many of) the known colors",
+);
+
+$o{trunc} = $ENV{TRUNCATE} if exists $ENV{TRUNCATE};
+$o{nixnics} = $ENV{NO_EXTRA} if exists $ENV{NO_EXTRA};
+
+if( not GetOptions(\%o, keys %ol) or $o{help} ) {
+    my $ml = List::Util::max(map {length} keys %ol);
+    print sprintf('%*s  %s', $ml, $_, $ol{$_}), "\n" for sort keys %ol;
+    exit 0;
+}
+
 
 our $VERSION = '2.7187';
 
-Getopt::Long::Configure("bundling"); # make switches case sensitive (and turn on bundling)
-GetOptions(
-    "help|h"             => sub { pod2usage(-verbose=>2) },
-    "trunc|t=i"          => \my $truncate, # whether to truncate the line
-    "nixnics|noex|x"     => \my $no_extra, # don't use the color nicknames
-    "list|list-colors|l" => \my $list_only,
-);
+my $app_invocation = $o{list} ? "list_colors" : "fire_filter";
 
-$truncate = $ENV{TRUNCATE} if exists $ENV{TRUNCATE};
-$no_extra = $ENV{NO_EXTRA} if exists $ENV{NO_EXTRA};
-
-$list_only
-    ? App::HI::list_colors($truncate, $no_extra)
-    : App::HI::fire_filter($truncate, $no_extra)
-    ;
+App::HI->$app_invocation(%o);
 
 =head1 NAME
 
