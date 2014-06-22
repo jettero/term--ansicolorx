@@ -90,7 +90,7 @@ sub colored {
         @codes = @_;
     }
 
-    return $Term::ANSIColor::colored($string, map {fix_color} @codes);
+    return Term::ANSIColor::colored($string, map {fix_color} @codes);
 }
 
 "true";
