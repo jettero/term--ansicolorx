@@ -60,13 +60,23 @@ sub fix_color(_) {
     $color =~ s/[^\w]/ /g;
     $color =~ s/on (\w+)/on_$1/g;
 
-    $color = join " ", map {exists $NICKNAMES{$_} ? $NICKNAMES{$_} : $_} grep{$_} split " ", $color;
+    my @cl = map {exists $NICKNAMES{$_} ? $NICKNAMES{$_} : $_} grep{$_} split " ", $color;
+    FIXCL: {
+        my %m = (faint=>1, dark=>1, bold=>1);
+        for(0 .. $#cl) {
+            if( $m{$cl[$_]} ) {
+                my $l = 1;
+                $l ++ while $m{$cl[$_+$l]};
+                if( $l > 1 ) {
+                    warn "splice([@cl], $_, $l, $cl[$_]);";
+                    splice @cl, $_, $l, $cl[$_];
+                    redo FIXCL;
+                }
+            }
+        }
+    }
 
-    1 while $color =~ s/bold\s+dark/bold/g
-         or $color =~ s/dark\s+bold//g
-         or $color =~ s/bold\s+bold/bold/g
-         or $color =~ s/on_\w+(\s+on_\w+)/$1/g
-    ;
+    $color = join " ", @cl;
 
     return $color;
 }
@@ -115,23 +125,24 @@ Term::ANSIColorx::ColorNicknames - nicknames for the ANSI colors
 =head1 DESCRIPTION
 
 I have a hard time remembering the ANSI colors in terms of bolds and regulars,
-and also find them irritating to type.  If I want the color yellow, why should I
+and also find them irritating to type. If I want the color yellow, why should I
 have to type C<"bright_yellow"> to get it?  C<yellow> is really orange
-colored, yellow should always be bold.  Also, the color C<black> is basically
+colored, yellow should always be bold. Also, the color C<black> is basically
 useless — on a black background at least, which is my modus operandi, your
 mileage may vary — so I made C<black> more of a dark grey. Actual black can be
-found via the color C<pitch>.
+found via the color C<pitch> or C<dark black>. I do have mixed feelings about
+coloring black as dark grey but I like it.
 
 =head1 HOW THIS WORKS
 
 In the past, this module used to replace the exports of the Term::ANSIColor
-package.  I was under the impression I am the only user of this package, so I
+package. I was under the impression I am the only user of this package, so I
 felt comfortable breaking backwards compatability with versions prior to
-C<2.7187>.  Lemme know if I jacked up your codes, but please adapt to the new
-setup.  The old stuff was pretty janky.  Kinda cool scope hacking, but janky.
+C<2.7187>. Lemme know if I jacked up your codes, but please adapt to the new
+setup. The old stuff was pretty janky. Kinda cool scope hacking, but janky.
 
 This module exports the following functions, which “override” the functions
-from L<Term::ANSIColor>.  They use the word “fix” instead of translate because
+from L<Term::ANSIColor>. They use the word “fix” instead of translate because
 it’s short, not because it’s a political statement about the ANSI definitions
 or L<Term::ANSIColor>.
 
@@ -139,13 +150,13 @@ or L<Term::ANSIColor>.
 
 =item C<fix_color>
 
-Re-writes the (correct) ANSI color to the new nickname color.  Additionally, it
+Re-writes the (correct) ANSI color to the new nickname color. Additionally, it
 re-writes various easy to type natural language (or css feeling) punctuations.
 
     "bold blue" eq fix_color("sky")
-    "bold blue" eq fix_color("bold-blue")
+    "bold blue" eq fix_color("bold-bold-bold-blue")
 
-    "bold white on_blue" = color("bold-white on blue")
+    "bold white on_blue" eq fix_color("bold-white on blue")
 
 (Note that C<white> is really C<"bold white"> under this package.
 C<fix_color> automatically fixes C<"bold bold white"> should it come up by
@@ -163,7 +174,7 @@ and of course, this:
 
     "bold blue" eq fix_color "sky";
 
-Lastly, there's a secret code to disable the re-writing.  If you decide you
+Lastly, there's a secret code to disable the re-writing. If you decide you
 hate one of the nicknames, or just want to disable it for a single color,
 intoduce a bell character anywhere in the string.
 
@@ -174,7 +185,7 @@ intoduce a bell character anywhere in the string.
 
 =item C<color>
 
-This is just an export of L<Term::ANSIColor/color>.  It runs
+This is just an export of L<Term::ANSIColor/color>. It runs
 L</fix_color|C<fix_color()>> on the given string and then invokes C<Term::ANSIColor::color()>.
 Additionally, C<color()> is defined with the C<_> prototype, which means it can be invoked this way:
 
@@ -200,11 +211,11 @@ Translated (but not C<_> prototyped) export of L<Term::ANSIColor/colored>.
 
 =item C<colorstrip>
 
-Boring re-import of L<Term::ANSIColor/colorstrip>.  This is not translated or prototyped.
+Boring re-import of L<Term::ANSIColor/colorstrip>. This is not translated or prototyped.
 
 =item C<uncolor>
 
-Boring re-import of L<Term::ANSIColor/uncolor>.  This is not translated or prototyped.
+Boring re-import of L<Term::ANSIColor/uncolor>. This is not translated or prototyped.
 
 =back
 
@@ -234,24 +245,24 @@ Alias for ocean.
 
 =item C<cyan>
 
-Cyan is the bold of the ocean.  It's a bright cyan color.
+Cyan is the bold of the ocean. It's a bright cyan color.
 
 =item C<lime>
 
-Bolded green.  It's really a lime color.
+Bolded green. It's really a lime color.
 
 =item C<orange> C<brown>
 
-Orange.  Most correctly, what ANSI calls "yellow", but is really more of a
+Orange. Most correctly, what ANSI calls "yellow", but is really more of a
 brown-orange.
 
 =item C<yellow>
 
-Yellow.  Technically bolded yellow.
+Yellow. Technically bolded yellow.
 
 =item C<purple>
 
-Alias for magenta.  I can never remember which is right, probably thanks to CSS.
+Alias for magenta. I can never remember which is right, probably thanks to CSS.
 
 =item C<violet>
 
@@ -263,7 +274,7 @@ Bolded purple.
 
 =item C<black>
 
-Bolded black.  On dark backgrounds, black is useless.
+Bolded black. On dark backgrounds, black is useless.
 
 =item C<pitch>
 
@@ -313,14 +324,14 @@ The black on white coloring of the current directory on the current panel.
 
 =head1 FAQ
 
-    Q: This is dumb. 
+    Q: This is dumb.
 
-    A: That's not a question, but you're right.  I still use it.
+    A: Yeah. OK, you have a point. Sorry?
 
 =head1 REPORTING BUGS
 
 You can report bugs either via rt.cpan.org or via the issue tracking system on
-github.  I'm likely to notice either fairly quickly.
+github. I'm likely to notice either fairly quickly.
 
 =head1 AUTHOR
 
