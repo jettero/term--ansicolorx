@@ -8,7 +8,7 @@ my $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
 
 WriteMakefile(
     NAME         => 'Term::ANSIColorx::ColorNicknames',
-    VERSION_FROM => 'ColorNicknames.pm',
+    VERSION_FROM => 'lib/Term/ANSIColorx/ColorNicknames.pm',
     PREREQ_PM    => { 
         'Term::ANSIColor' => 4.0,
         'Text::Table'     => 0,
@@ -25,7 +25,7 @@ WriteMakefile(
         LICENSE	=> 'LGPL',
     ) : ()),
 
-    ( $install_hi =~ m/n/i ? () : (EXE_FILES=>['hi']) ),
+    ( $install_hi =~ m/n/i ? () : (EXE_FILES=>['bin/hi']) ),
 
     clean => { FILES => 'dist TEST' },
 );

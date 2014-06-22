@@ -1,9 +1,9 @@
-AutoFilterFH.pm
+bin/hi
 Changes
-ColorNicknames.pm
-hi
 lib/App/HI.pm
+lib/Term/ANSIColorx/AutoFilterFH.pm
 lib/Term/ANSIColorx/AutoFilterFH.pod
+lib/Term/ANSIColorx/ColorNicknames.pm
 lib/Term/ANSIColorx/ColorNicknames.pod
 Makefile.PL
 MANIFEST

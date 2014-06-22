@@ -30,6 +30,9 @@ sub fire_filter {
     }
 }
 
+sub list_colors {
+}
+
 __END__
 
 =head1 NAME

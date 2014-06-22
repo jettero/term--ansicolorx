@@ -5,7 +5,7 @@ use Test;
 
 plan tests => 2;
 
-open FILE, "|$^X ./hi -t 80 test1 bold-blue >TEST" or die $!;
+open FILE, "|$^X bin/hi -t 80 test1 bold-blue >TEST" or die $!;
 my $string = "test1 test2" x 25;
 print FILE "test: $string\n";
 close FILE;
