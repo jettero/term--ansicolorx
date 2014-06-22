@@ -5,17 +5,17 @@ Term::ANSIColorx::ColorNicknames - nicknames for the ANSI colors
 
 =head1 SYNOPSIS
 
-    use Term::ANSIColorx::ColorNicknames; # messes with T::AC
-    use Term::ANSIColor qw(:constants);   # exports new nicknames now
+    use Term::ANSIColorx::ColorNicknames; # messes with ANSIColor
+    use Term::ANSIColor qw(:constants);   # now exports the nicknames
 
 =head1 DESCRIPTION
 
 I have a hard time remembering the ANSI colors in terms of bolds and regulars,
-and also find them irritating to type.  If I want the color C<YELLOW>, why
-should I have to type C<BOLD() . YELLOW()> to get it?  C<YELLOW()> is really
-orange colored, yellow should always be bold.  Also, the color C<BLACK> is
-basically useless, on a black background at least, which is my modus operandi,
-your mileage may vary.
+and also find them irritating to type.  If I want the color yellow, why should I
+have to type C<BOLD() . YELLOW()> to get it?  C<YELLOW()> is really orange
+colored, yellow should always be bold.  Also, the color C<BLACK> is basically
+useless, on a black background at least, which is my modus operandi, your
+mileage may vary.
 
 =head1 THE NICKNAMES
 
@@ -71,12 +71,13 @@ Bolded purple.
 
 =item C<black>
 
-Bolded black.  Black, being totally useless on dark backgrounds.  This
-replacement can be disabled with either C<$ENV{DISABLE_BLACK}> or via
-C<$Term::ANSIColorx::ColorNicknames::DISABLE_BLACK> -- although the later must
-be invoked before L<use|perlfunc/use> compiles the nicknames module.
+Bolded black.  On dark backgrounds, black is useless.
 
-=item C<grey> C<grey>
+=item C<pitch>
+
+Actual black.
+
+=item C<grey> C<gray>
 
 Unbolded white.
 
@@ -87,6 +88,34 @@ Bolded white.
 =item C<dire>
 
 Scary yellow on red warning color.
+
+=item C<alert>
+
+Scary white on red color.
+
+=item C<todo>
+
+Iconic black on orange todo coloring.
+
+=item C<mc_dir> C<nc_dir>
+
+The white on blue directory coloring from Midnight Commander.
+
+=item C<mc_file> C<nc_file>
+
+The grey on blue file coloring.
+
+=item C<mc_exe> C<nc_exe> C<mc_exec> C<nc_exec>
+
+The lime on blue executable coloring.
+
+=item C<mc_curs> C<nc_curs>
+
+The cursor bar black on cyan coloring.
+
+=item C<mc_pwd> C<nc_pwd> C<mc_cwd> C<nc_cwd>
+
+The black on white coloring of the current directory on the current panel.
 
 =back
 
@@ -107,7 +136,7 @@ Paul Miller C<< <jettero@cpan.org> >>
 
 =head1 COPYRIGHT
 
-Copyright 2009 Paul Miller -- released under the GPL
+Copyright 2014 Paul Miller -- released under the GPL
 
 =head1 SEE ALSO
 

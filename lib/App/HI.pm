@@ -1,6 +1,6 @@
 
 package App::HI;
-our $VERSION = '2.7185';
+our $VERSION = '2.7186';
 
 __END__
 
