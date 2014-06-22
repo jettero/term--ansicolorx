@@ -3,33 +3,19 @@
 use strict;
 use Getopt::Long;
 use Pod::Usage;
+use App::HI;
 
-our $VERSION = '2.7186';
-
-my $truncate;
-my $no_extra;
+our $VERSION = '2.7187';
 
 Getopt::Long::Configure("bundling"); # make switches case sensitive (and turn on bundling)
 GetOptions(
-    "help|h"         => sub { pod2usage(-verbose=>2) },
-    "trunc|t=i"      => \$truncate, # whether to truncate the line
-    "nixnics|noex|x" => \$no_extra, # don't use the color nicknames
+    "help|h"             => sub { pod2usage(-verbose=>2) },
+    "trunc|t=i"          => \my $truncate, # whether to truncate the line
+    "nixnics|noex|x"     => \my $no_extra, # don't use the color nicknames
+    "list|list-colors|l" => \&App::HI::list_colors,
 );
 
-unless( $no_extra ) {
-    eval q { use Term::ANSIColorx::ColorNicknames };
-    die $@ if $@;
-}
-eval q { use Term::ANSIColorx::AutoFilterFH qw(filtered_handle) };
-die $@ if $@;
-
-my $newstdout = filtered_handle(\*STDOUT, @ARGV);
-$| = 1; my $oldstdout = select $newstdout; $|=1;
-$newstdout->set_truncate($truncate) if $truncate;
-
-while(<STDIN>) {
-    print
-}
+App::HI::fire_filter($truncate, $no_extra);
 
 =head1 NAME
 
@@ -38,9 +24,10 @@ hi - highlight things in a stream of output
 =head1 SYNOPSIS
 
   hi [options] [regex color [regex color [regex color [...]]]]
-      --nixnics --noex -x: do not use the extended color nicknames
-      --trunc -t:          truncate lines to this width (argument required)
-      --help -h:           this help
+      --list-colors --list -l: list the available colors and exit
+      --nixnics --noex -x:     do not use the extended color nicknames
+      --trunc -t:              truncate lines to this width (argument required)
+      --help -h:               this help
 
 =head1 EXAMPLES
 

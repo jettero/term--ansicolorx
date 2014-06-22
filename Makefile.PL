@@ -10,7 +10,8 @@ WriteMakefile(
     NAME         => 'Term::ANSIColorx::ColorNicknames',
     VERSION_FROM => 'ColorNicknames.pm',
     PREREQ_PM    => { 
-        'Term::ANSIColor' => 2.0,
+        'Term::ANSIColor' => 4.0,
+        'Text::Table'     => 0,
     },
 
     ($ExtUtils::MakeMaker::VERSION ge '6.48'? 

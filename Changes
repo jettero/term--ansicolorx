@@ -5,6 +5,7 @@
      (There's also a coloralias() sub now, but you can't replace standard
      colors, so it's not useful here.)
    - use color() and colorvalid() instead of more scope hacking
+   - move most of the hi command to App::HI
 
 2.7186: Sat Jun 21 2014
    - added a few more color nicknames
