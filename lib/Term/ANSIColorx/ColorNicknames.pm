@@ -12,6 +12,10 @@ our @EXPORT_OK   = qw(fix_color color colorvalid colored colorstrip uncolor);
 our %EXPORT_TAGS = ( all => \@EXPORT_OK, fixed=>\@FIXED );
 
 our %NICKNAMES = (
+    normal    => "clear",
+    unbold    => "clear",
+    'un-bold' => "clear",
+
     blood     => "red",
     umber     => "bold red",
     sky       => "bold blue",
@@ -54,29 +58,33 @@ our %NICKNAMES = (
 
 sub fix_color(_) {
     my $color = shift;
-
-    return $color if $color =~ s/\a//g;
+    my $no_nick = $color =~ s/\a//g;
 
     $color =~ s/[^\w]/ /g;
     $color =~ s/on (\w+)/on_$1/g;
 
-    my @cl = map {exists $NICKNAMES{$_} ? $NICKNAMES{$_} : $_} grep{$_} split " ", $color;
+    my @cl = map {
+        (!$no_nick && exists $NICKNAMES{$_})
+        ? split(" ", $NICKNAMES{$_}) : $_
+    } split(" ", $color);
+
     FIXCL: {
-        my %m = (faint=>1, dark=>1, bold=>1);
-        for(0 .. $#cl) {
-            if( $m{$cl[$_]} ) {
+        my %m = (faint=>1, dark=>1, bold=>1, bright=>1, clear=>1);
+        for my $i (0 .. $#cl) {
+            if( $m{$cl[$i]} ) {
                 my $l = 1;
-                $l ++ while $m{$cl[$_+$l]};
+
+                $l ++ while $m{$cl[ $i+$l ]};
+
                 if( $l > 1 ) {
-                    warn "splice([@cl], $_, $l, $cl[$_]);";
-                    splice @cl, $_, $l, $cl[$_];
+                    splice @cl, $i, $l, $cl[$i];
                     redo FIXCL;
                 }
             }
         }
     }
 
-    $color = join " ", @cl;
+    $color = join " ", @cl>1 ? grep {$_ ne "clear"} @cl : @cl;
 
     return $color;
 }
@@ -154,13 +162,44 @@ Re-writes the (correct) ANSI color to the new nickname color. Additionally, it
 re-writes various easy to type natural language (or css feeling) punctuations.
 
     "bold blue" eq fix_color("sky")
-    "bold blue" eq fix_color("bold-bold-bold-blue")
 
     "bold white on_blue" eq fix_color("bold-white on blue")
 
-(Note that C<white> is really C<"bold white"> under this package.
+Note that C<white> is really C<"bold white"> under this package.
 C<fix_color> automatically fixes C<"bold bold white"> should it come up by
-accident.)
+accident.  Actually, it tries to do something predictable when you use
+bold/faint/dark/bright in any combination.  It just uses the first one.
+
+    "bold blue" eq fix_color("bold dark bold faint dark bold blue");
+    "dark blue" eq fix_color("dark bold bold faint dark bold blue");
+
+C<clear> (aka C<normal> aka C<unbold>) is an exception to this rule.  If
+C<clear> (aka C<normal> etc) is the only “color” in the color, then it stands,
+otherwise, it is removed — presuming that a reset is usually used after some
+color sequence anyway..
+
+    "bold black" eq fix_color("black");
+    "black"      eq fix_color("normal black");
+    "clear"      eq fix_color("normal");
+
+Which means, you get the following.  Notice that we get C<\e[30m>, not
+C<\e[0;30m> like you might expect.
+
+    say "result: "
+    Data::Dump::dump([
+        map { colored( " $_ ", $_ ) }
+
+        "black",
+        "normal black",
+        "normal"
+
+    ]);
+
+    result: [
+      "\e[1;30m black \e[0m",
+      "\e[30m normal black \e[0m",
+      "\e[0m clear \e[0m",
+    ]
 
 Additionally, C<fix_color> uses the prototype C<_>, so one can do this:
 
@@ -300,32 +339,37 @@ Scary white on red color.
 
 Iconic black on orange todo coloring.
 
-=item C<"mc_dir"> C<"nc_dir">
+=item C<mc_dir> C<nc_dir>
 
 The white on blue directory coloring from Midnight Commander.
 
-=item C<"mc_file"> C<"nc_file">
+=item C<mc_file> C<nc_file>
 
 The grey on blue file coloring.
 
-=item C<"mc_exe"> C<"nc_exe"> C<"mc_exec"> C<"nc_exec">
+=item C<mc_exe> C<nc_exe> C<mc_exec> C<nc_exec>
 
 The lime on blue executable coloring.
 
-=item C<"mc_curs"> C<"nc_curs">
+=item C<mc_curs> C<nc_curs>
 
 The cursor bar black on cyan coloring.
 
-=item C<"mc_pwd"> C<"nc_pwd"> C<"mc_cwd"> C<"nc_cwd">
+=item C<mc_pwd> C<nc_pwd> C<mc_cwd> C<nc_cwd>
 
 The black on white coloring of the current directory on the current panel.
+
+=item C<normal> C<unbold> C<un-bold>
+
+I can never remember that C<clear> is C<un-bold> or C<normal>.  C<dark> and
+C<bright> work ratehr like C<bold> and C<clear>, except that they don't work
+from real text consoles (they're really half-bold and extra-bold).
 
 =back
 
 =head1 FAQ
 
     Q: This is dumb.
-
     A: Yeah. OK, you have a point. Sorry?
 
 =head1 REPORTING BUGS
