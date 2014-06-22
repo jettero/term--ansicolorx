@@ -8,7 +8,7 @@ no warnings 'uninitialized'; # sometimes it's ok to compare undef... jesus
 use Carp;
 use Symbol;
 use Tie::Handle;
-use Term::ANSIColor qw(:constants);
+use Term::ANSIColor qw(color colorvalid);
 use base 'Tie::StdHandle';
 use base 'Exporter';
 
@@ -22,6 +22,7 @@ my %pats;
 my %trun;
 
 my @icolors = ("");
+my $RESET = color("reset");
 
 # DESTROY {{{
 sub DESTROY {
@@ -67,7 +68,7 @@ sub PRINT {
         my $l = 0;
         for my $i ( reverse 0 .. $#colors ) {
             if( (my $n = $colors[$i]) != $l ) {
-                substr $it, $i+1, 0, RESET . "$icolors[$l]";
+                substr $it, $i+1, 0, $RESET . "$icolors[$l]";
                 $l = $n;
             }
         }
@@ -102,18 +103,15 @@ sub filtered_handle {
             croak "RE \"$_\" doesn't compile well: $@" unless $pat;
         }
 
-        my @uc = split m/[,\s-]+/, uc $color;
-        my $eval_str = join(" . ", map("$_()", @uc));
-
         # die unless all the elements of @uc are all caps exports of
         # Term::ANSIColor
 
-        my $color_c = 0;
-           $color_c += (Term::ANSIColor->can($_) ? 1:0) for @uc;
+        $color =~ s/[^\w]/ /g;
+        $color =~ s/on (\w+)/on_$1/g;
 
-        croak "color \"$color\" (understood as $eval_str) unknown" unless @uc == $color_c;
+        croak "color \"$color\" unknown" unless colorvalid($color);
 
-        my $color = eval $eval_str or die $@;
+        my $color = color($color);
         my ($l)   = grep {$color eq $icolors[$_]} 0 .. $#icolors;
 
         unless($l) {

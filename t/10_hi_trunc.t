@@ -15,4 +15,4 @@ my $contents = <FILE>;
 close FILE;
 
 ok( length($contents), 81 );
-ok( $contents =~ m/\e\[1m\e\[34mtest1\e\[0?m/ );
+ok( $contents, qr/\e\[1(?:m\e\[|;)34mtest1\e\[0?m/ );
