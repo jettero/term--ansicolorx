@@ -13,5 +13,5 @@ open FILE, "TEST" or die $!;
 my $contents = <FILE>;
 close FILE;
 
-ok( $contents =~ m/\e\[1;34mtest1\e\[0?m/ );
-ok( $contents =~ m/\e\[31mtest2\e\[0?m/ );
+ok( $contents, qr/\e\[1;34mtest1\e\[0?m/ );
+ok( $contents, qr/\e\[31mtest2\e\[0?m/ );

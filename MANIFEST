@@ -2,13 +2,12 @@ bin/hi
 Changes
 lib/App/HI.pm
 lib/Term/ANSIColorx/AutoFilterFH.pm
-lib/Term/ANSIColorx/AutoFilterFH.pod
 lib/Term/ANSIColorx/ColorNicknames.pm
-lib/Term/ANSIColorx/ColorNicknames.pod
 Makefile.PL
 MANIFEST
 README
 t/01_color_some_things.t
+t/02_fix_some_things.t
 t/05_color_file_handle.t
 t/07_test_hi.t
 t/09_test_no_extra_and_trunc.t

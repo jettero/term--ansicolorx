@@ -4,11 +4,12 @@ use strict;
 use warnings;
 
 use Test;
-use Term::ANSIColorx::ColorNicknames;
-use Term::ANSIColor qw(:constants);
+use Term::ANSIColorx::ColorNicknames qw(:all);
 
-plan tests => 2;
+plan tests => 3;
 
-my $string = BLOOD . "red" . SKY . "blue";
-ok( $string =~ m/\e\[31m/ );
-ok( $string =~ m/\e\[1;34m/ );
+my $string = color("red") . "red " . color("sky") . "sky" . color("reset");
+
+ok( $string, qr/\e\[31mred/ );
+ok( $string, qr/\e\[1;34msky/ );
+ok( $string, qr/\e\[0?m$/ );
