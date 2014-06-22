@@ -1,6 +1,7 @@
-^.st$
 ^.git
-^MANIFEST\.SKIP$
-TEST
 ^.pm-desc.html$
+^.st$
 ^Makefile.old
+^MANIFEST\.SKIP$
+new-version.sh
+TEST
