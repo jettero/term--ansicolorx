@@ -1,23 +1,24 @@
 
-require 5.010;
+require 5.008;
 
 use strict;
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker 6.46;
 
-my $install_hi = prompt("install the STDOUT pipe highlighter \"hi\"?", "y");
+my $install_hi = prompt("install the STDOUT pipe highlighter \".../hi\"?", "y");
 
 WriteMakefile(
     NAME         => 'Term::ANSIColorx::ColorNicknames',
     VERSION_FROM => 'lib/Term/ANSIColorx/ColorNicknames.pm',
-    j
-    PREREQ_PM    => { 
+
+    PREREQ_PM    => {
         'Term::ANSIColor' => 4.0,
         'Term::Size'      => 0,
         'Text::Table'     => 0,
     },
 
     META_MERGE => {
-        resources => {
+        "meta-spec" => { version => 2 },
+        resources   => {
             repository => {
                 type => 'git',
                 url  => 'git@github.com:jettero/term--ansicolorx.git',
