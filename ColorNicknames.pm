@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use Term::ANSIColor;
 
-our $VERSION = '2.7186';
+our $VERSION = '2.7187';
 
 our %NICKNAMES = (
     blood     => "31",

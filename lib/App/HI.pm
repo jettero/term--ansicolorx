@@ -1,6 +1,6 @@
 
 package App::HI;
-our $VERSION = '2.7186';
+our $VERSION = '2.7187';
 
 __END__
 
@@ -10,7 +10,7 @@ App::HI - highlight things in a stream of output
 
 =head1 SYNOPSIS
 
-This is just a placeholder for the command line app.
+This is just a placeholder for the command line app hi(1).
 
 =head1 SEE ALSO
 

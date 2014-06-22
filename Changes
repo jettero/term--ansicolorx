@@ -1,3 +1,11 @@
+2.7187: Sun Jun 22 2014
+   - taught App::HI how to list all the colors
+   - XXX: interestingly, I can modify the color stack in %ENV, no reason to do
+     the weird scope hacking; project for later I guess
+     (There's also a coloralias() sub now, but you can't replace standard
+     colors, so it's not useful here.)
+   - use color() and colorvalid() instead of more scope hacking
+
 2.7186: Sat Jun 21 2014
    - added a few more color nicknames
 
