@@ -11,11 +11,11 @@ my %todo = (
     colored_3 => [  ["this that", "carina round"]   => ["this that", "carina round"] ],
     # Carina Round isn't a color … :/
 
-    color_1 => [ ['blue'], ['blue'] ],
-    color_2 => [ ['bold blue'], ['sky'] ],
+    color_1 => [ ['blue'],               ['blue'] ],
+    color_2 => [ ['bold blue'],          ['sky'] ],
     color_3 => [ ['bold blue on_white'], ['bold-sky-on-white'] ],
-    color_4 => [ ['bold black'], ['black'] ],
-    color_5 => [ ['black'], ['normal black'] ],
+    color_4 => [ ['bold black'],         ['black'] ],
+    color_5 => [ ['black'],              ['normal black'] ],
 
     # … from the perlpod — is this really true?
     # "bold blue" eq fix_color("bold dark bold faint dark bold blue");
@@ -24,8 +24,12 @@ my %todo = (
     color_7 => [ ["dark blue"], ["dark bold bold faint dark bold blue"] ],
     color_8 => [ ["blue"],      ["normal bold bold bold bright blue"] ],
 
-    color_9 => [ ['maynard james keenan'], ['maynard james keenan'] ],
     # Wait, MJK isn't a color either.  Donkey Punch the Night Away.
+    color_9 => [ ['maynard james keenan'], ['maynard james keenan'] ],
+
+    color_10 => [ ["bold white on_blue"], ["mc-file"] ],
+    color_11 => [ ["bold green on_blue"], ["nc_exe"] ],
+    color_12 => [ ["black on_white"],     ["mc-pwd"] ],
 
     uncolor    => [ ["\e[1;34m"], ["\e[1;34m"] ],
     colorstrip => [ ["\e[1;34m"], ["\e[1;34m"] ],
