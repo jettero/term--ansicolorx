@@ -14,6 +14,8 @@ my %todo = (
     color_1 => [ ['blue'], ['blue'] ],
     color_2 => [ ['bold blue'], ['sky'] ],
     color_3 => [ ['bold blue on_white'], ['bold-sky-on-white'] ],
+    color_3 => [ ['bold black'], ['black'] ],
+    color_3 => [ ['black'], ['dark black'] ],
     color_4 => [ ['maynard james keenan'], ['maynard james keenan'] ],
     # Wait, MJK isn't a color either.  Donkey Punch the Night Away.
 

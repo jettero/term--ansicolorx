@@ -62,8 +62,11 @@ sub fix_color(_) {
 
     $color = join " ", map {exists $NICKNAMES{$_} ? $NICKNAMES{$_} : $_} grep{$_} split " ", $color;
 
-    1 while $color =~ s/bold\s+bold/bold/g;
-    1 while $color =~ s/on_\w+(\s+on_\w+)/$1/g;
+    1 while $color =~ s/bold\s+dark/bold/g
+         or $color =~ s/dark\s+bold//g
+         or $color =~ s/bold\s+bold/bold/g
+         or $color =~ s/on_\w+(\s+on_\w+)/$1/g
+    ;
 
     return $color;
 }
