@@ -12,13 +12,16 @@ GetOptions(
     "help|h"             => sub { pod2usage(-verbose=>2) },
     "trunc|t=i"          => \my $truncate, # whether to truncate the line
     "nixnics|noex|x"     => \my $no_extra, # don't use the color nicknames
-    "list|list-colors|l" => sub { App::HI::list_colors(); exit 0 },
+    "list|list-colors|l" => \my $list_only,
 );
 
 $truncate = $ENV{TRUNCATE} if exists $ENV{TRUNCATE};
 $no_extra = $ENV{NO_EXTRA} if exists $ENV{NO_EXTRA};
 
-App::HI::fire_filter($truncate, $no_extra);
+$list_only
+    ? App::HI::list_colors($truncate, $no_extra)
+    : App::HI::fire_filter($truncate, $no_extra)
+    ;
 
 =head1 NAME
 
