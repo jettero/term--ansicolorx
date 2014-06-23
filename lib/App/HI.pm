@@ -9,31 +9,30 @@ our $VERSION = '2.7187';
 
 sub top_matter {
     my $no_extra = shift;
+    my @to_import = qw(color colored colorvalid);
 
     if( $no_extra ) {
-        eval q { use Term::ANSIColorx::AutoFilterFH qw(filtered_handle); 1 }
+        eval qq/ use Term::ANSIColor qw(@to_import); 1 /
         or die $@;
 
     } else {
-        eval q { use Term::ANSIColorx::AutoFilterFH qw(colorpackage=Term::ANSIColorx::ColorNicknames filtered_handle); 1 }
+        eval qq/ use Term::ANSIColorx::ColorNicknames qw(@to_import); 1 /
         or die $@;
     }
 
-    if( @_ ) {
-        eval qq/ use Term::ANSIColor qw(@_); 1 /
-        or die $@;
-    }
+    eval q { use Term::ANSIColorx::AutoFilterFH qw(filtered_handle); 1 }
+    or die $@;
 }
 
 sub fire_filter {
-    my $truncate = shift;
-    my $no_extra = shift;
+    my $class = shift;
+    my %o = @_;
 
-    top_matter( $no_extra );
+    top_matter( $o{nixnics} );
 
     my $newstdout = filtered_handle(\*STDOUT, @ARGV);
     $| = 1; my $oldstdout = select $newstdout; $|=1;
-    $newstdout->set_truncate($truncate) if $truncate;
+    $newstdout->set_truncate($o{trunc}) if $o{trunc};
 
     binmode $newstdout, ':utf8';
     binmode STDIN,      ':utf8';
@@ -43,28 +42,65 @@ sub fire_filter {
     }
 }
 
-sub list_colors {
-    my $truncate = shift;
-    my $no_extra = shift;
+sub sort_colors {
+    my %yet_seen;
 
-    top_matter( $no_extra => qw(color colorvalid) );
+    map {$_->{cn}}
 
-    my $table;
+    sort {
+        $a->{bg} <=> $b->{bg} ||
+        $a->{at} <=> $b->{at} ||
+        $a->{fg} <=> $b->{fg}
+    }
 
-    my @colors = (
-                         qw( black red green yellow blue magenta cyan white ),
-        map("bold $_",   qw( black red green yellow blue magenta cyan white )),
-        map("bright_$_", qw( black red green yellow blue magenta cyan white )),
+    map {
+        my $res = { cn => $_ };
+        my @v = map { $_ >= 90 && $_ <= 107 ? $_-60 : $_ } ( color($_) =~ m/(\d+)/g );
 
-        "white on_black", "white on_red", "blue on_green", "black on_yellow",
-        "white on_blue", "white on_magenta", "black on_cyan", "black on_white"
-    );
+        $res->{at} = grep {$_ <= 8}              @v;
+        $res->{fg} = grep {$_ >= 30 && $_ <= 37} @v;
+        $res->{bg} = grep {$_ >= 40 && $_ <= 47} @v;
 
-    @colors = grep {
+        $res->{at} =  0 unless $res->{at};
+        $res->{fg} = 30 unless $res->{fg};
+        $res->{bg} = 40 unless $res->{bg};
+
+        $res;
+    }
+
+    grep {
         my $valid = colorvalid($_);
         warn "$_ isn't valid" unless $valid;
 
-    $valid} @colors;
+        $valid
+    }
+
+    grep {
+        !$yet_seen{$_}++
+    }
+
+    @_
+}
+
+sub list_colors {
+    my $class = shift;
+    my %o = @_;
+
+    top_matter( $o{nixnics} => qw(color colorvalid) );
+
+    my $table;
+
+    my @colors = sort_colors(
+        map("bold $_",   qw( black red green yellow blue magenta cyan white )),
+                         qw( black red green yellow blue magenta cyan white ),
+
+        "white on_black", "white on_red", "blue on_green", "black on_yellow",
+        "white on_blue", "white on_magenta", "black on_cyan", "black on_white",
+
+        "pitch on white",
+
+        keys %Term::ANSIColorx::ColorNicknames::NICKNAMES,
+    );
 
     my ($columns, $rows) = Term::Size::chars *STDOUT;
 
@@ -80,12 +116,12 @@ sub list_colors {
             push @row, $_;
 
             unless( @row % $m ) {
-                $table->add(map {color($_) . $_ . color("reset")} @row);
+                $table->add(map {$_ ? colored($_, $_) : $_} @row);
                 @row = ();
             }
         }
 
-        $table->add(@row) if @row;
+        $table->add(map {$_ ? colored($_, $_) : $_} @row);
 
         $m -= 2;
         redo UGH_SO_BAD if $table->width > $columns;
