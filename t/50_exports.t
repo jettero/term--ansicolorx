@@ -14,8 +14,8 @@ my %todo = (
     color_1 => [ ['blue'],               ['blue'] ],
     color_2 => [ ['bold blue'],          ['sky'] ],
     color_3 => [ ['bold blue on_white'], ['bold-sky-on-white'] ],
-    color_4 => [ ['bold black'],         ['black'] ],
-    color_5 => [ ['black'],              ['normal black'] ],
+    color_4 => [ ['bold yellow'],        ['bold yellow'] ],
+    color_5 => [ ['yellow'],             ['normal yellow'] ],
 
     # … from the perlpod — is this really true?
     # "bold blue" eq fix_color("bold dark bold faint dark bold blue");

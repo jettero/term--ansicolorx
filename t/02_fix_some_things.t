@@ -8,8 +8,8 @@ use Term::ANSIColorx::ColorNicknames qw(fix_color);
 my %fix_these = (
     "bold-blue on white" => "bold blue on_white",
     "bold sky-on-white"  => "bold blue on_white",
-    "\ablack"            => "black",
-    black                => "bold black",
+    "\ayellow"           => "yellow",
+    pitch                => "bold black",
 );
 
 plan tests => 0 + (keys %fix_these);
