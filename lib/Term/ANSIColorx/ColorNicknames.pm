@@ -14,7 +14,6 @@ our %EXPORT_TAGS = ( all => \@EXPORT_OK, fixed=>\@FIXED );
 our %NICKNAMES = (
     normal    => "clear",
     unbold    => "clear",
-    'un-bold' => "clear",
 
     blood     => "red",
     umber     => "bold red",
@@ -29,8 +28,8 @@ our %NICKNAMES = (
     purple    => "magenta",
     violet    => "bold magenta",
     pink      => "bold magenta",
-    black     => "bold black",
-    pitch     => "black",
+    pitch     => "bold black",
+    coal      => "bold black",
     grey      => "white",
     gray      => "white",
     white     => "bold white",
@@ -62,6 +61,8 @@ sub fix_color(_) {
 
     $color =~ s/[^\w]/ /g;
     $color =~ s/on (\w+)/on_$1/g;
+    $color =~ s/un bold/unbold/g;
+    $color =~ s/([mn]c) (dir|file|exec?|curs|[pc]wd)/$1_$2/g;
 
     my @cl = map {
         (!$no_nick && exists $NICKNAMES{$_})
@@ -135,11 +136,7 @@ Term::ANSIColorx::ColorNicknames - nicknames for the ANSI colors
 I have a hard time remembering the ANSI colors in terms of bolds and regulars,
 and also find them irritating to type. If I want the color yellow, why should I
 have to type C<"bright_yellow"> to get it?  C<yellow> is really orange
-colored, yellow should always be bold. Also, the color C<black> is basically
-useless — on a black background at least, which is my modus operandi, your
-mileage may vary — so I made C<black> more of a dark grey. Actual black can be
-found via the color C<pitch> or C<dark black>. I do have mixed feelings about
-coloring black as dark grey but I like it.
+colored, yellow should always be bold.
 
 =head1 HOW THIS WORKS
 
@@ -178,8 +175,8 @@ C<clear> (aka C<normal> etc) is the only “color” in the color, then it stand
 otherwise, it is removed — presuming that a reset is usually used after some
 color sequence anyway..
 
-    "bold black" eq fix_color("black");
-    "black"      eq fix_color("normal black");
+    "bold black" eq fix_color("coal");
+    "black"      eq fix_color("normal coal");
     "clear"      eq fix_color("normal");
 
 Which means, you get the following.  Notice that we get C<\e[30m>, not
@@ -189,15 +186,15 @@ C<\e[0;30m> like you might expect.
     Data::Dump::dump([
         map { colored( " $_ ", $_ ) }
 
-        "black",
-        "normal black",
+        "coal",
+        "normal coal",
         "normal"
 
     ]);
 
     result: [
-      "\e[1;30m black \e[0m",
-      "\e[30m normal black \e[0m",
+      "\e[1;30m coal \e[0m",
+      "\e[30m normal coal \e[0m",
       "\e[0m clear \e[0m",
     ]
 
@@ -217,7 +214,7 @@ Lastly, there's a secret code to disable the re-writing. If you decide you
 hate one of the nicknames, or just want to disable it for a single color,
 intoduce a bell character anywhere in the string.
 
-    "bold black" eq fix_color "black";
+    "bold black" eq fix_color "coal";
     "black" eq fix_color "\ablack";
 
 (This makes more sense if you export L</color|C<color()>> below.
@@ -311,13 +308,9 @@ Bolded purple.
 
 Bolded purple.
 
-=item C<black>
+=item C<pitch> C<coal>
 
-Bolded black. On dark backgrounds, black is useless.
-
-=item C<pitch>
-
-Actual black.
+Bolded black.
 
 =item C<grey> C<gray>
 

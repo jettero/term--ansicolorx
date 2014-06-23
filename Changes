@@ -7,6 +7,9 @@
    - use color() and colorvalid() instead of more scope hacking
    - export color() and colorvalid() (et al) insteadof scope hacking
    - move most of the hi command to App::HI
+   - changed my mind on black and pitch.  Reversing them.
+   - black is black, pitch is bold black; emotional problems solved.  Hrm,
+     coal.  Maybe coal?  Heck, I put that too.
 
 2.7186: Sat Jun 21 2014
    - added a few more color nicknames
