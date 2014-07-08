@@ -24,7 +24,7 @@ if( not GetOptions(\%o, keys %ol) or $o{help} ) {
 }
 
 
-our $VERSION = '2.7187';
+our $VERSION = '2.7188';
 
 my $app_invocation = $o{list} ? "list_colors" : "fire_filter";
 
