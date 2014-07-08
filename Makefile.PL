@@ -14,6 +14,7 @@ WriteMakefile(
         'Term::ANSIColor' => 4.0,
         'Term::Size'      => 0,
         'Text::Table'     => 0,
+        'common::sense'   => 0,
     },
 
     META_MERGE => {
