@@ -5,7 +5,7 @@ use Term::ANSIColor qw(colorstrip uncolor);
 use common::sense;
 use base 'Exporter';
 
-our $VERSION = '2.7188';
+our $VERSION = '2.7189';
 
 our @FIXED       = qw(color colorvalid colored);
 our @EXPORT_OK   = qw(fix_color color colorvalid colored colorstrip uncolor);
@@ -217,12 +217,12 @@ intoduce a bell character anywhere in the string.
     "bold black" eq fix_color "coal";
     "black" eq fix_color "\ablack";
 
-(This makes more sense if you export L</color|C<color()>> below.
+(This makes more sense if you export L</C<color>> below.
 
 =item C<color>
 
 This is just an export of L<Term::ANSIColor/color>. It runs
-L</fix_color|C<fix_color()>> on the given string and then invokes C<Term::ANSIColor::color()>.
+L</C<fix_color()>> on the given string and then invokes C<Term::ANSIColor::color()>.
 Additionally, C<color()> is defined with the C<_> prototype, which means it can be invoked this way:
 
     say color "violet", "test test test test", color "reset"

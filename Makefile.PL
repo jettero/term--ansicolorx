@@ -29,7 +29,8 @@ WriteMakefile(
     },
 
     TEST_REQUIRES => {
-        'IPC::Run' => 0,
+        'IPC::Run'    => 0,
+        'File::Slurp' => 0,
     },
 
     LICENSE	=> 'GPL',
