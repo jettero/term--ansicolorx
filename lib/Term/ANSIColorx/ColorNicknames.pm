@@ -5,7 +5,7 @@ use Term::ANSIColor qw(colorstrip uncolor);
 use common::sense;
 use base 'Exporter';
 
-our $VERSION = '2.7189';
+our $VERSION = '2.7190';
 
 our @FIXED       = qw(color colorvalid colored);
 our @EXPORT_OK   = qw(fix_color color colorvalid colored colorstrip uncolor);
