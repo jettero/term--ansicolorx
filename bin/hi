@@ -62,10 +62,18 @@ Intended as a pipe colorizer
 
   sudo tail -f /var/log/vsftpd.log | hi CONNECT.* umber OK.UPLOAD.* lime
 
-But it works in C<Makefile>s too:
+=head1 limited Makefile support
 
   SHELL = hi interesting.*thing umber
   default:
+
+Although, the output probably isn't quite what you'd expect.  Make prints the
+commands before it forks the subshell.  So whatever C<hi> prints instead
+already has all the make substitutions completed.  C<ls $(something)> turns
+into C<ls /whatever/something/was>.  Worse, C<-c> gets passed whatever the
+Makefile executes, not just commands it would have (or did) print.
+
+It's probably not usable like this without some clever make tricks.
 
 =head1 REPORTING BUGS
 
