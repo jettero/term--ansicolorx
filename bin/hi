@@ -7,14 +7,12 @@ use App::HI;
 use List::Util;
 use Getopt::Long qw(:config bundling);
 
-binmode STDIN,  ":utf8";
-binmode STDOUT,  ":utf8";
-binmode STDERR,  ":utf8";
-
 my %o; my %ol = (
     "help|h"             => "this help",
     "trunc|t=i"          => "truncate the line to this many characters",
     "nixnics|noex|x"     => "don't use the nicknames from Term::ANSIColorx::Colornicknames",
+    "command|c=s"        => "fork and exe this command and pipe it through hi; for SHELL = hi in Makefiles",
+    "supress-cmd-say"    => "don't print the command after forking",
     "list|list-colors|l" => "list (many of) the known colors",
 );
 
@@ -27,6 +25,15 @@ if( not GetOptions(\%o, keys %ol) or $o{help} ) {
     exit 0;
 }
 
+if( $o{command} ) {
+    close STDIN;
+    open STDIN, "-|", "$o{command}" or die "couldn't open command \"$o{command}\"";
+    print "«$o{command}»" unless $o{'supress-cmd-say'};
+}
+
+binmode STDIN,  ":utf8";
+binmode STDOUT,  ":utf8";
+binmode STDERR,  ":utf8";
 
 our $VERSION = '2.7190';
 
@@ -45,12 +52,20 @@ hi - highlight things in a stream of output
       --nixnics --noex -x:     do not use the extended color nicknames
       --trunc -t:              truncate lines to this width (argument required)
       --help -h:               this help
+      --command -c:            fork and execute this command and pipe it through hi
 
 =head1 EXAMPLES
+
+Intended as a pipe colorizer
 
   ps auxfw | hi jettero sky root red ^nobody orange
 
   sudo tail -f /var/log/vsftpd.log | hi CONNECT.* umber OK.UPLOAD.* lime
+
+But it works in C<Makefile>s too:
+
+  SHELL = hi interesting.*thing umber
+  default:
 
 =head1 REPORTING BUGS
 
