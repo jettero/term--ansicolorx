@@ -5,7 +5,7 @@ use Test;
 
 plan tests => 2;
 
-open FILE, "|$^X bin/hi test1 sky test2 blood >TEST" or die $!;
+open FILE, "|$^X -CA bin/hi test1 sky test2 blood >TEST" or die $!;
 print FILE "test: test1 test2\n";
 close FILE;
 
