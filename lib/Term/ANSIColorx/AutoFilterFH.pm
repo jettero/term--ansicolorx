@@ -6,10 +6,13 @@ use Symbol;
 use Tie::Handle;
 use base 'Tie::StdHandle';
 use base 'Exporter';
+use Term::ANSIColor qw(color colorvalid);
 
 sub import {
     my @__;
-    my $color_package = Term::ANSIColorx::ColorNicknames->can("import") ? "Term::ANSIColorx::ColorNicknames" : "Term::ANSIColor";
+    my $color_package = Term::ANSIColorx::ColorNicknames->can("import")
+        ? "Term::ANSIColorx::ColorNicknames"
+        : "Term::ANSIColor";
 
     for(@_) {
         if( m/\Acolor.?package\s*=\s*(\S+)\z/ ) {
@@ -20,6 +23,11 @@ sub import {
         }
     }
 
+    # Exporter warns when we re-export color and colorvalid with a different prototype
+    local $SIG{__WARN__} = sub {}; # and there's really no good way to disable it
+    # so we just disable the warning signal for a sec
+
+    #arn qq{ use $color_package qw(color colorvalid); 1 };
     eval qq{ use $color_package qw(color colorvalid); 1 }
         or die $@;
 
@@ -84,13 +92,20 @@ sub PRINT {
                 if( $icolors[$p->[1]] eq "_hashed_" ) {
                     my $dyn = dynamic_colors($1);
 
-                    use Data::Dump qw(dump);
-                    warn dump({
-                        character_list => \@character_list,
-                        match => $1,
-                        icolors => \@icolors,
-                        dyn => $dyn,
-                    });
+                    # This is evil to debug
+                    # … data dump can help …
+                    # 
+                    # use Data::Dump qw(dump);
+                    # warn dump({
+                    #     character_list => \@character_list,
+                    #     match => $1,
+                    #     icolors => \@icolors,
+                    #     dyn => $dyn,
+                    #     p => \$p,
+                    # });
+
+                    my $pos = 0;
+                    $colors[$_] = $dyn->[$pos++] for @character_list;
                 }
 
                 else {
@@ -197,6 +212,17 @@ DYNAMIC_COLOR_MATCH_HACK: {
         return $list if $list;
 
         my @color = map {$dynamic_color_list[rand @dynamic_color_list]} 1 .. length($match);
+
+        for my $color (@color) {
+            my ($l) = grep {$color eq $icolors[$_]} 0 .. $#icolors;
+
+            unless($l) {
+                push @icolors, $color;
+                $l = $#icolors;
+            }
+
+            $color = $l;
+        }
 
         return $dynamic_color_match_hash{$match} = \@color;
     }
