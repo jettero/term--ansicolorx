@@ -70,15 +70,37 @@ sub PRINT {
     my $this = shift;
     my @them = @_;
 
+    # FIXME: this is totally unreadable code
+
     for my $it (@them) {
         my @colors;
 
+        # for each pattern, set an applicable icolor index for each character
+        # in @colors
         for my $p ( @{$pats{$this}} ) {
             while( $it =~ m/($p->[0])/g ) {
-                $colors[$_] = $p->[1] for $-[1] .. $+[1]-1;
+                my @character_list = ( $-[1] .. $+[1]-1 );
+
+                if( $icolors[$p->[1]] eq "_hashed_" ) {
+                    my $dyn = dynamic_colors($1);
+
+                    use Data::Dump qw(dump);
+                    warn dump({
+                        character_list => \@character_list,
+                        match => $1,
+                        icolors => \@icolors,
+                        dyn => $dyn,
+                    });
+                }
+
+                else {
+                    $colors[$_] = $p->[1] for @character_list;
+                }
             }
         }
 
+        # in reverse order, change the color for each character iff
+        # it's not already the same; reset before change (is the reset overkill??)
         my $l = 0;
         for my $i ( reverse 0 .. $#colors ) {
             if( (my $n = $colors[$i]) != $l ) {
@@ -86,6 +108,8 @@ sub PRINT {
                 $l = $n;
             }
         }
+
+        # lastly, change the color of the first character if there is one
         substr $it, 0, 0, $icolors[$colors[0]] if $colors[0];
     }
 
@@ -114,6 +138,12 @@ sub filtered_handle {
     my @pats;
     while( (my ($pat,$color) = splice @patterns, 0, 2) ) {
         croak "\@patterns should contain an even number of items" unless defined $color;
+
+        if( $color eq "_hashed_" ) {
+            push @icolors, '_hashed_';
+            push @pats, [ $pat, $#icolors ];
+            next;
+        }
 
         unless( ref($pat) eq "Regexp" ) {
             $pat = eval {qr($pat)};
@@ -147,6 +177,31 @@ sub filtered_handle {
 
     $pfft;
 }
+# }}}
+
+# {{{ DYNAMIC_COLOR_MATCH_HACK:
+DYNAMIC_COLOR_MATCH_HACK: {
+    my %dynamic_color_match_hash;
+    my @dynamic_color_list = (map {color($_)} (
+        "green", "bold green",
+        "cyan", "bold cyan",
+        "magenta", "bold magenta",
+        "bold blue",
+        "yellow", "bold yellow",
+    ));
+
+    sub dynamic_colors {
+        my $match = shift;
+        my $list = $dynamic_color_match_hash{$match};
+
+        return $list if $list;
+
+        my @color = map {$dynamic_color_list[rand @dynamic_color_list]} 1 .. length($match);
+
+        return $dynamic_color_match_hash{$match} = \@color;
+    }
+}
+
 # }}}
 
 "true";
@@ -197,7 +252,7 @@ non-lines.  For example, this will not work right:
     $truncated_handle->set_truncate(80)
     select $truncated_handle;
     print "neato: ", ("." x 120); # this will gain a newline at char 81
-    print "\n"; 
+    print "\n";
 
 =head1 FAQ
 
