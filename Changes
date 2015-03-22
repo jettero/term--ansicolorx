@@ -1,4 +1,7 @@
 
+2.7190: Sun Mar 22 2015
+   - support utf8 in params to 'hi'
+
 2.7190: Tue Dec 09 2014
    - limited Makefile support
 
