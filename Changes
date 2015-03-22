@@ -1,4 +1,8 @@
 
+2.7191: Sun Mar 22 2015
+   - Experimenting with a new _hashed_ color that's random space madness hashed for each match
+     (more on this in the docs later if it survives testing)
+
 2.7190: Sun Mar 22 2015
    - support utf8 in params to 'hi'
 
