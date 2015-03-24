@@ -150,6 +150,10 @@ sub filtered_handle {
     @icolors = ("");
     $RESET = color("reset");
 
+    # dunno about others, but my term doesn't reset background right 
+    # with '0m'; needs pure 'm'
+    $RESET .= "\e[m" if $RESET eq "\e[0m";
+
     my @pats;
     while( (my ($pat,$color) = splice @patterns, 0, 2) ) {
         croak "\@patterns should contain an even number of items" unless defined $color;
