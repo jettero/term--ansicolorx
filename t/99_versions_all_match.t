@@ -9,12 +9,12 @@ my @versions;
 
 if ($ENV{TEST_AUTHOR}) {
     eval q ^
-        use File::Slurp qw(slurp);
+        use Path::Tiny;
 
         File::Find::find(sub {
             return unless -f $_;
             return if m/ColorNicknames\.pm/;
-            my $cont = slurp($_);
+            my $cont = path($_)->slurp;
             my ($ver) = $cont =~ m/our\s*\$VERSION\s*=\s*['"](.+)['"]/;
 
             push @versions, [ $_, $ver ] if $ver;
