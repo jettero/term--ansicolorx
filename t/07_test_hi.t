@@ -2,16 +2,18 @@ use strict;
 use warnings;
 
 use Test;
+use IPC::Run 'run';
 
 plan tests => 2;
 
-open FILE, "|$^X -CA bin/hi test1 sky test2 blood >TEST" or die $!;
-print FILE "test: test1 test2\n";
-close FILE;
+my @cmd = ($^X, -CA => qw(bin/hi test1 sky test2 blood));
 
-open FILE, "TEST" or die $!;
-my $contents = <FILE>;
-close FILE;
+my $in = "test: test1 test2\n";
+run \@cmd, \$in, \&check_ok, sub { die "@_" };
 
-ok( $contents, qr/\e\[1;34mtest1\e\[0?m/ );
-ok( $contents, qr/\e\[31mtest2\e\[0?m/ );
+sub check_ok {
+    my $stuff = shift;
+
+    ok( $stuff, qr/\e\[1;34mtest1\e\[0?m/ );
+    ok( $stuff, qr/\e\[31mtest2\e\[0?m/ );
+}
