@@ -1,6 +1,8 @@
 
 2.7191: Wed Mar 25 2015
-   - trying to resolve these vile -CA bugs and SYMBOL usages in t/
+   - resolve these vile -CA bugs
+   - remove open SYMBOL usages in t/ and replace with IPC::Run
+     or open my $mem, '>', \my $str
    - switched from File::Slurp to Path::Tiny — not at all concerned about the
      controversy or the implications of using slurp() from an author-only test
      … I Just like Path::Tiny

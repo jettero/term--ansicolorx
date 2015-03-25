@@ -7,13 +7,10 @@ use Term::ANSIColorx::AutoFilterFH qw(filtered_handle);
 
 plan tests => 2;
 
-open FILE, ">TEST" or die $!;
-my $colored = filtered_handle(\*FILE => (qr(test1) => 'sky'), ("test2" => "blood") );
+open my $fh, '>', \my $str or die $!;
+my $colored = filtered_handle($fh => (qr(test1) => 'sky'), ("test2" => "blood") );
 print $colored "this is a test: test1, test2\n";
-close FILE;
+close $fh;
 
-open FILE, "TEST" or die $!;
-my $contents = do {local $/; <FILE>};
-
-ok( $contents, qr/\e\[1;34mtest1\e\[0?m/ );
-ok( $contents, qr/\e\[31mtest2\e\[0?m/ );
+ok( $str, qr/\e\[1;34mtest1\e\[0?m/ );
+ok( $str, qr/\e\[31mtest2\e\[0?m/ );
