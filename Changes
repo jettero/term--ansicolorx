@@ -1,4 +1,7 @@
 
+2.7191_1: Thu Mar 26 2015
+   - some of my tests are failing and one of them is a total mystery
+
 2.7191: Wed Mar 25 2015
    - resolve these vile -CA bugs
    - remove open SYMBOL usages in t/ and replace with IPC::Run

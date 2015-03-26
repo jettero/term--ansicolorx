@@ -38,4 +38,13 @@ WriteMakefile(
     ( $install_hi =~ m/n/i ? () : (EXE_FILES=>['bin/hi']) ),
 
     clean => { FILES => 'dist TEST' },
+
+    depend => { pm_to_blib => 't/hi' },
 );
+
+sub MY::postamble {
+    return <<'EOF';
+t/hi: bin/hi
+	grep -v '^#!' bin/hi > $@
+EOF
+}
