@@ -1,5 +1,5 @@
 
-require 5.008;
+require 5.010;
 
 use strict;
 use ExtUtils::MakeMaker 6.46;
