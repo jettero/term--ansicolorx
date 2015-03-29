@@ -38,7 +38,7 @@ binmode STDIN,  ":utf8";
 binmode STDOUT,  ":utf8";
 binmode STDERR,  ":utf8";
 
-our $VERSION = '2.7191_1';
+our $VERSION = '2.7191_2';
 
 my $app_invocation = $o{list} ? "list_colors" : "fire_filter";
 
