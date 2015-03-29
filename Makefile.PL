@@ -2,7 +2,7 @@
 require 5.010;
 
 use strict;
-use ExtUtils::MakeMaker 6.46;
+use ExtUtils::MakeMaker 6.64;
 
 my $install_hi = prompt("install the STDOUT pipe highlighter \".../hi\"?", "y");
 
@@ -15,6 +15,10 @@ WriteMakefile(
         'Term::Size'      => 0,
         'Text::Table'     => 0,
         'common::sense'   => 0,
+    },
+
+    CONFIGURE_REQUIRES => {
+        'ExtUtils::MakeMaker' => 6.64,
     },
 
     META_MERGE => {

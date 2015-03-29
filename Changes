@@ -1,4 +1,8 @@
 
+2.7191_2: Sun Mar 29 2015
+   - perl v5.10 required for _ prototype
+   - the tests require ExtUtils::MakeMaker 6.64, fixed
+
 2.7191_1: Thu Mar 26 2015
    - some of my tests are failing and one of them is a total mystery
 
