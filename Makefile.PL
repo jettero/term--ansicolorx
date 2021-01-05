@@ -30,6 +30,10 @@ WriteMakefile(
                 web  => 'https://github.com/jettero/term--ansicolorx',
             }
         },
+        x_authority    => "cpan:JETTERO",
+        x_contributors => [
+            q{Sergei Zhmylev <zhmylove@cpan.org>},
+        ],
     },
 
     TEST_REQUIRES => {

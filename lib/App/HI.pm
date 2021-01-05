@@ -5,7 +5,7 @@ use strict;
 use Text::Table;
 use Term::Size;
 
-our $VERSION = '2.7191_2';
+our $VERSION = '2.7192';
 
 sub top_matter {
     my $no_extra = shift;
