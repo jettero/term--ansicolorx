@@ -39,7 +39,7 @@ binmode STDIN,  ":utf8";
 binmode STDOUT,  ":utf8";
 binmode STDERR,  ":utf8";
 
-our $VERSION = '2.7192';
+our $VERSION = '2.7193';
 
 if( $o{file} ) {
     for my $file (@{$o{file}}) {
